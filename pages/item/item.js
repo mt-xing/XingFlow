@@ -13,7 +13,7 @@
 	
 	    	// TODO: Initialize the page here.
 	    	document.addEventListener('keydown', function (e) {
-	    		var TextField = document.activeElement;
+	    	var TextField = document.activeElement;
 	    		if (e.keyCode == WinJS.Utilities.Key.tab) {
 	    			e.preventDefault();
 	    		} else if (e.keyCode == WinJS.Utilities.Key.backspace && TextField.value == "" && TextField.id != "Input1" &&	TextField.tagName == "INPUT") {
@@ -104,6 +104,12 @@
 		
 	}
 	function DeleteField() {
+
+		if (Number(document.activeElement.getAttribute("data-cont")) != 0) {
+			DeleteContention();
+		}
+
+
     	var IDNum = DetElNum();
     	document.activeElement.parentNode.removeChild(document.activeElement);
 		
@@ -126,8 +132,13 @@
     	document.getElementById("Input" + (ElNum + 1)).focus();
     }
 	
-	function IndentIn() {
-    	var CurrAtt = Number(document.activeElement.getAttribute("data-indent"));
+	function IndentIn(temp) {
+		if (temp != null) {
+			CurrAtt = Number(temp.getAttribute("data-indent"));
+		} else {
+			var CurrAtt = Number(document.activeElement.getAttribute("data-indent"));
+		}
+
     	if (CurrAtt == NaN) {
     		CurrAtt = 0;
     	}
@@ -135,10 +146,16 @@
     	
     	//document.activeElement.style.left = "0px";
     	var Amount = 50 * CurrAtt;
-		Amount += "px";
-		document.activeElement.style.left = Amount;
-		document.activeElement.style.width = "calc(99% - " + (50 * CurrAtt) + "px)";
-    	document.activeElement.setAttribute("data-indent", CurrAtt);
+    	Amount += "px";
+    	if (temp != null) {
+    		temp.style.left = Amount;
+    		temp.style.width = "calc(99% - " + (50 * CurrAtt) + "px)";
+    		temp.setAttribute("data-indent", CurrAtt);
+    	} else {
+			document.activeElement.style.left = Amount;
+			document.activeElement.style.width = "calc(99% - " + (50 * CurrAtt) + "px)";
+			document.activeElement.setAttribute("data-indent", CurrAtt);
+    	}
     }
 	function IndentOut() {
     	var CurrAtt = Number(document.activeElement.getAttribute("data-indent"));
@@ -149,6 +166,9 @@
     	document.activeElement.style.left = (50 * CurrAtt) + "px";
     	document.activeElement.style.width = "calc(99% - " + (50 * CurrAtt) + "px)";
     	document.activeElement.setAttribute("data-indent", CurrAtt);
+    	if (CurrAtt == 0) {
+    		document.activeElement.setAttribute("data-incont", 0);
+    	}
     }
 	
 	function CreateContention() {
@@ -164,6 +184,8 @@
 				//If the next element is in another contention already,
 				//Deal with it
 				ThisCont = 1 + Number(document.getElementById("Input" + (DetElNum() + 1)).getAttribute("data-incont"));
+			} else if (Number(document.getElementById("Input" + (DetElNum() + 1)).getAttribute("data-incont")) == 0 && ContNum != 0) {
+				ThisCont = 1;
 			}
 	
 			if(ThisCont < (ContNum + 1)){
@@ -182,13 +204,16 @@
 
 			for (var i = (DetElNum() + 1) ; i <= Fields; i++) {
 				var ValueHolder = Number(document.getElementById("Input" + i).getAttribute("data-incont"));
-				if (ValueHolder >= (ThisCont - 1)) {
+				if (ValueHolder >= (ThisCont - 1) && Number(document.getElementById("Input" + i).getAttribute("data-cont")) == 0) {
+					if (ValueHolder == 0 && Number(document.getElementById("Input" + i).getAttribute("data-indent")) == 0) {
+						IndentIn(document.getElementById("Input" + i));
+					}
 					document.getElementById("Input" + i).setAttribute("data-incont", (ValueHolder + 1));
 					//Change the In Contention attributes...
 				}
 
 				var OtherValueHolder = Number(document.getElementById("Input" + i).getAttribute("data-cont"));
-				if (OtherValueHolder >= (ThisCont - 1)) {
+				if (OtherValueHolder >= (ThisCont - 1) && Number(document.getElementById("Input" + i).getAttribute("data-incont")) == 0) {
 					document.getElementById("Input" + i).setAttribute("data-cont", (OtherValueHolder + 1));
 					//Or for the contention headers, the Contention attribute itself
 				}
@@ -196,10 +221,11 @@
 
 
 
-				var Ele = document.getElementById("Input" + i);
+				/*var Ele = document.getElementById("Input" + i);
 				if (Number(Ele.getAttribute("data-incont")) == 0 && Number(Ele.getAttribute("data-cont")) == 0) {
 					Ele.setAttribute("data-incont", ThisCont);
-				}
+					IndentIn(Ele);
+				}*/
 			}
 
 		}
