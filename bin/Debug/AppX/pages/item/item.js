@@ -176,22 +176,26 @@
 				}
 				
 				//var DOMArray = document.getElementsByTagName("INPUT");
-				for (var j = (DetElNum() + 1); j <= Fields; j++) {
-					var ValueHolder = Number(document.getElementById("Input" + j).getAttribute("data-incont"));
-					if (ValueHolder >= (ThisCont - 1)) {
-						document.getElementById("Input" + j).setAttribute("data-incont", (ValueHolder + 1));
-						//Change the In Contention attributes...
-					}
-
-					var OtherValueHolder = Number(document.getElementById("Input" + j).getAttribute("data-cont"));
-					if (OtherValueHolder >= (ThisCont - 1)) {
-						document.getElementById("Input" + j).setAttribute("data-cont", (OtherValueHolder + 1));
-						//Or for the contention headers, the Contention attribute itself
-					}
-				}
 			}
 
+			
+
 			for (var i = (DetElNum() + 1) ; i <= Fields; i++) {
+				var ValueHolder = Number(document.getElementById("Input" + i).getAttribute("data-incont"));
+				if (ValueHolder >= (ThisCont - 1)) {
+					document.getElementById("Input" + i).setAttribute("data-incont", (ValueHolder + 1));
+					//Change the In Contention attributes...
+				}
+
+				var OtherValueHolder = Number(document.getElementById("Input" + i).getAttribute("data-cont"));
+				if (OtherValueHolder >= (ThisCont - 1)) {
+					document.getElementById("Input" + i).setAttribute("data-cont", (OtherValueHolder + 1));
+					//Or for the contention headers, the Contention attribute itself
+				}
+
+
+
+
 				var Ele = document.getElementById("Input" + i);
 				if (Number(Ele.getAttribute("data-incont")) == 0 && Number(Ele.getAttribute("data-cont")) == 0) {
 					Ele.setAttribute("data-incont", ThisCont);
@@ -221,11 +225,59 @@
 	function DeleteContention() {
 		var El = document.activeElement;
 		//El = Element
-	
+		var ThisCont = Number(El.getAttribute("data-cont"));
+
 		El.setAttribute("data-cont", 0);
+		if (Number(document.getElementById("Input" + (DetElNum() - 1)).getAttribute("data-incont")) != 0) {
+			El.setAttribute("data-incont", Number(document.getElementById("Input" + (DetElNum() - 1)).getAttribute("data-incont")))
+			for (var i = 0; i < El.getAttribute("data-incont") ; i++) {
+				IndentIn();
+			}
+		}
 		El.style.padding = "0";
-		document.getElementById("MainContent").removeChild(document.getElementById("Cont" + ContNum));
-	
+		El.style.margin = "0";
+		document.getElementById("MainContent").removeChild(document.getElementById("Cont" + ThisCont));
+
+		if (DetElNum() < Fields) {
+			//If the field you're de-cont-ing isn't the last field...
+			
+
+			if (ThisCont < ContNum) {
+				//If this contention isn't the newest contention
+				for (var i = (ThisCont + 1); i <= ContNum; i++) {
+					var ContMark = document.getElementById("Cont" + i);
+					ContMark.id = "Cont" + (i - 1);
+					ContMark.innerText = Number(ContMark.innerText) - 1;
+					//Change the contention markers	
+				}
+
+				//var DOMArray = document.getElementsByTagName("INPUT");
+				for (var j = (DetElNum() + 1) ; j <= Fields; j++) {
+					var ValueHolder = Number(document.getElementById("Input" + j).getAttribute("data-incont"));
+					if (ValueHolder >= ThisCont) {
+						document.getElementById("Input" + j).setAttribute("data-incont", (ValueHolder - 1));
+						//Change the In Contention attributes...
+					}
+
+					ValueHolder = Number(document.getElementById("Input" + j).getAttribute("data-cont"));
+					if (ValueHolder >= ThisCont) {
+						document.getElementById("Input" + j).setAttribute("data-cont", (ValueHolder - 1));
+						//Or for the contention headers, the Contention attribute itself
+					}
+				}
+			}
+
+			/*for (var i = (DetElNum() + 1) ; i <= Fields; i++) {
+				var Ele = document.getElementById("Input" + i);
+				if (Number(Ele.getAttribute("data-incont")) == 0 && Number(Ele.getAttribute("data-cont")) == 0) {
+					Ele.setAttribute("data-incont", ThisCont);
+				}
+			}*/
+
+		}
+
+
+		
 		ContNum--;
 	}
 	
