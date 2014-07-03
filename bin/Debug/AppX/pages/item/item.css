@@ -1,0 +1,16 @@
+﻿.itempage .content {
+	padding-left: 120px;
+	margin-right: 120px;
+	overflow-y: auto;
+	overflow-x:hidden;
+}
+
+input[type=text] {
+	width:99%;
+	position:relative;
+	display:block;
+}
+
+#MainContent {
+	position: relative;
+}
