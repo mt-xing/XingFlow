@@ -2,6 +2,7 @@
 
 - [X] Delete Contention (should update any contentions and data-incont values below it just like adding contentions)
 - [ ] Subpoints (everything contentions do, except with subpoints)
+  - [ ] Fix Subpoint Indenting
 - [ ] Responses
 - [ ] Speech View
 - [ ] Finish Title Screen
