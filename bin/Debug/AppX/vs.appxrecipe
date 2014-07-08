@@ -8,7 +8,7 @@
     <PackageArchitecture>neutral</PackageArchitecture>
     <PackageIdentityName>897e00f4-ef56-4da7-a522-8a06f5b8efcc</PackageIdentityName>
     <IntermediateOutputPath>C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\bld\Debug\</IntermediateOutputPath>
-    <RegisteredManifestChecksum>2D81916D1BDDB5543E0CE9846CFF5F8EF37BE17D52C5202745ADDE6CF4DFFAFE</RegisteredManifestChecksum>
+    <RegisteredManifestChecksum>C42D48DA98DD044A16DBCA4AE9C5ACDCF9A1D8C95687B2B4DCD1DC6E4D1CEB96</RegisteredManifestChecksum>
     <RegisteredPackageMoniker>897e00f4-ef56-4da7-a522-8a06f5b8efcc_1.0.0.0_neutral__eq9h3e6grdrp4</RegisteredPackageMoniker>
     <RegisteredUserModeAppID>897e00f4-ef56-4da7-a522-8a06f5b8efcc_eq9h3e6grdrp4!App</RegisteredUserModeAppID>
     <RegisteredPackageID>897e00f4-ef56-4da7-a522-8a06f5b8efcc</RegisteredPackageID>
@@ -20,7 +20,7 @@
     <AppXManifest Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\bin\Debug\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2014-06-22T16:12:58.294</Modified>
+      <Modified>2014-07-05T19:27:23.171</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
@@ -38,22 +38,22 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\pages\item\item.css">
       <PackagePath>pages\item\item.css</PackagePath>
-      <Modified>2014-07-03T02:33:52.981</Modified>
+      <Modified>2014-07-05T18:36:09.943</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\images\logo.scale-100.png">
       <PackagePath>images\logo.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2014-03-14T06:11:40.000</Modified>
+      <Modified>2014-07-05T19:22:27.026</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\images\smalllogo.scale-100.png">
       <PackagePath>images\smalllogo.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2014-03-14T06:11:40.000</Modified>
+      <Modified>2014-07-05T19:29:01.473</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\images\splashscreen.scale-100.png">
       <PackagePath>images\splashscreen.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2014-03-14T06:11:40.000</Modified>
+      <Modified>2014-07-05T19:23:59.406</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\images\storelogo.scale-100.png">
       <PackagePath>images\storelogo.scale-100.png</PackagePath>
@@ -70,7 +70,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\js\default.js">
       <PackagePath>js\default.js</PackagePath>
-      <Modified>2014-06-22T16:11:17.732</Modified>
+      <Modified>2014-07-05T19:17:57.433</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\js\navigator.js">
       <PackagePath>js\navigator.js</PackagePath>
@@ -78,7 +78,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\pages\hub\hub.js">
       <PackagePath>pages\hub\hub.js</PackagePath>
-      <Modified>2014-07-03T02:48:31.617</Modified>
+      <Modified>2014-07-05T19:17:31.219</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\pages\section\section.js">
       <PackagePath>pages\section\section.js</PackagePath>
@@ -86,11 +86,11 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\pages\item\item.js">
       <PackagePath>pages\item\item.js</PackagePath>
-      <Modified>2014-07-05T16:29:50.865</Modified>
+      <Modified>2014-07-08T02:11:03.692</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\pages\hub\hub.html">
       <PackagePath>pages\hub\hub.html</PackagePath>
-      <Modified>2014-06-28T23:42:19.425</Modified>
+      <Modified>2014-07-05T18:57:30.038</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\pages\section\section.html">
       <PackagePath>pages\section\section.html</PackagePath>
@@ -98,7 +98,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\pages\item\item.html">
       <PackagePath>pages\item\item.html</PackagePath>
-      <Modified>2014-07-04T23:15:19.971</Modified>
+      <Modified>2014-07-07T23:44:34.910</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\default.html">
       <PackagePath>default.html</PackagePath>
@@ -106,7 +106,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\bin\Debug\ReverseMap\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2014-06-22T16:21:15.991</Modified>
+      <Modified>2014-07-05T19:27:23.071</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

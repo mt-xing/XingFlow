@@ -5,6 +5,7 @@
 	var ContNum = 0;
 	var SubNum = new Array();
 	var Pressed = false;
+	const IndentValue = "99%";
 	
 	WinJS.UI.Pages.define("/pages/item/item.html", {
 		// This function is called whenever a user navigates to this page. It
@@ -15,16 +16,19 @@
 		
 			// TODO: Initialize the page here.
 			document.addEventListener('keydown', function (e){ 
-			var TextField = document.activeElement;
+				var TextField = document.activeElement;
 				if (e.keyCode == WinJS.Utilities.Key.tab) {
 					e.preventDefault();
-				} else if (e.keyCode == WinJS.Utilities.Key.backspace && TextField.value == "" &&	TextField.id != "Input1" &&	TextField.tagName == "INPUT") {
+				} else if (e.keyCode == WinJS.Utilities.Key.backspace && TextField.tagName == "INPUT" && TextField.getAttribute("data-source") == "true" && doGetCaretPosition(TextField) == 0) {
+					e.preventDefault();
+					DeleteSource();
+				} else if (e.keyCode == WinJS.Utilities.Key.backspace && TextField.tagName == "INPUT" && doGetCaretPosition(TextField) == 0 && TextField.id != "Input1") {
 					DeleteField();
 				} else if (e.keyCode == WinJS.Utilities.Key.enter) {
 					NewField();
 				} else if (e.keyCode == WinJS.Utilities.Key.upArrow && TextField.id != "Input1" &&	TextField.tagName == "INPUT") {
 					MoveUp();
-				} else if (e.keyCode == WinJS.Utilities.Key.downArrow && TextField.id != ("Input" +		Fields) && TextField.tagName	== "INPUT") {
+				} else if (e.keyCode == WinJS.Utilities.Key.downArrow && TextField.id != ("Input" +		Fields) && TextField.tagName == "INPUT") {
 					MoveDown();
 				} else if (e.altKey && e.keyCode == WinJS.Utilities.Key.c && TextField.tagName ==	"INPUT" && (TextField.getAttribute("data-cont") == 0 || TextField.getAttribute("data-cont") == "") && Pressed == false) {
 					Pressed = true;
@@ -38,9 +42,15 @@
 				} else if (e.altKey && e.keyCode == WinJS.Utilities.Key.s && TextField.tagName == "INPUT" && TextField.getAttribute("data-sub") != 0 && Pressed == false) {
 					Pressed = true;
 					DeleteSubpoint();
+				} else if (e.keyCode == WinJS.Utilities.Key.leftArrow && TextField.getAttribute("data-source") == "true" && doGetCaretPosition(TextField) == 0) {
+					e.preventDefault();
+					MoveSourceLeft();
+				} else if (e.keyCode == WinJS.Utilities.Key.rightArrow && TextField.getAttribute("data-issource") == "true" && doGetCaretPosition(TextField) == TextField.value.length) {
+					e.preventDefault();
+					MoveSourceRight();
 				}
+			
 			});
-		
 			document.addEventListener('keyup', function (e) {
 				var itm = e.srcElement;
 				var TextField = document.activeElement;
@@ -48,10 +58,12 @@
 					ChangePage();
 				} else if(e.shiftKey && e.keyCode == WinJS.Utilities.Key.tab && TextField.tagName ==	"INPUT"){
 					IndentOut();
-				} else if (e.keyCode == WinJS.Utilities.Key.tab && doGetCaretPosition   (document.activeElement) == 0 &&	TextField.tagName == "INPUT") {
-					IndentIn();
 				} else if (e.altKey && (e.keyCode == WinJS.Utilities.Key.c || e.keyCode == WinJS.Utilities.Key.s)) {
 					Pressed = false;
+				} else if (e.keyCode == WinJS.Utilities.Key.tab && doGetCaretPosition(TextField) == 0 && TextField.tagName == "INPUT") {
+					IndentIn();
+				} else if (e.keyCode == WinJS.Utilities.Key.tab && doGetCaretPosition(TextField) != 0 && TextField.tagName == "INPUT") {
+					CreateSource();
 				}
 			});
 		}
@@ -88,6 +100,7 @@
 		input.setAttribute("data-indent", 0);
 		input.setAttribute("data-cont", 0);
 		input.setAttribute("data-sub", 0);
+		input.setAttribute("data-source", false);
 
 
 		if (Number(El.getAttribute("data-incont")) != 0) {
@@ -126,8 +139,14 @@
 		if (Number(El.getAttribute("data-cont")) != 0){
 			IndentIn();
 		} else if (Number(El.getAttribute("data-indent")) != 0) {
-			for (var i = 0; i < El.getAttribute("data-indent") ; i++) {
-				IndentIn();
+			if (El.getAttribute("data-source") == "false") {
+				for (var i = 0; i < El.getAttribute("data-indent") ; i++) {
+					IndentIn();
+				}
+			} else {
+				for (var i = 2; i < El.getAttribute("data-indent") ; i++) {
+					IndentIn();
+				}
 			}
 		}
 
@@ -140,20 +159,36 @@
 
 		if (Number(document.activeElement.getAttribute("data-cont")) != 0) {
 			DeleteContention();
+		} else if (Number(document.activeElement.getAttribute("data-sub")) != 0) {
+			DeleteSubpoint();
+		} else if (document.activeElement.getAttribute("data-issource") == "true") {
+			MoveSourceRight();
+			DeleteSource();
 		}
 
+		var El = document.activeElement;
 
-    	var IDNum = DetElNum();
-    	document.activeElement.parentNode.removeChild(document.activeElement);
+		//First figure out what the current number is
+		var IDNum = DetElNum();
+		//Next, we shift focus to the field on top
+		document.getElementById("Input" + (IDNum - 1)).focus();
+
+		//If the field we're deleting isn't empty, we move the text
+		if (El.value != "") {
+			document.getElementById("Input" + (IDNum - 1)).value = document.getElementById("Input" + (IDNum - 1)).value + El.value;
+		}
+		//Then, we kill the field
+    	El.parentNode.removeChild(El);
 		
+		//Finally, we rename all the subsequent fields so they're still consecutive
     	if (Fields != IDNum) {
     		for (var i = (IDNum + 1) ; i <= Fields; i++) {
     			document.getElementById("Input" + i).id = "Input" + (i - 1);
     		}
     	}
 
+		//Cleanup work
     	Fields--;
-    	document.getElementById("Input" + (IDNum - 1)).focus();
     }
 	
 	function MoveUp() {
@@ -163,7 +198,15 @@
 	function MoveDown() {
     	var ElNum = DetElNum();
     	document.getElementById("Input" + (ElNum + 1)).focus();
-    }
+	}
+	function MoveSourceLeft() {
+		var El = document.activeElement;
+		document.getElementById("Source-" + El.id).focus();
+	}
+	function MoveSourceRight() {
+		var El = document.activeElement;
+		document.getElementById(El.id.substr(7)).focus();
+	}
 	
 	function IndentIn(temp) {
 		if (temp != null) {
@@ -177,16 +220,16 @@
     	}
     	CurrAtt++;
     	
-    	//document.activeElement.style.left = "0px";
+    	//document.activeElement.style.marginLeft = "0px";
     	var Amount = 50 * CurrAtt;
     	Amount += "px";
     	if (temp != null) {
-    		temp.style.left = Amount;
-    		temp.style.width = "calc(99% - " + (50 * CurrAtt) + "px)";
+    		temp.style.marginLeft = Amount;
+    		temp.style.width = "calc(" + IndentValue + " - " + (50 * CurrAtt) + "px)";
     		temp.setAttribute("data-indent", CurrAtt);
     	} else {
-			document.activeElement.style.left = Amount;
-			document.activeElement.style.width = "calc(99% - " + (50 * CurrAtt) + "px)";
+			document.activeElement.style.marginLeft = Amount;
+			document.activeElement.style.width = "calc(" + IndentValue + " - " + (50 * CurrAtt) + "px)";
 			document.activeElement.setAttribute("data-indent", CurrAtt);
     	}
     }
@@ -196,8 +239,8 @@
     	if (CurrAtt < 0) {
     		return;
     	}
-    	document.activeElement.style.left = (50 * CurrAtt) + "px";
-    	document.activeElement.style.width = "calc(99% - " + (50 * CurrAtt) + "px)";
+    	document.activeElement.style.marginLeft = (50 * CurrAtt) + "px";
+    	document.activeElement.style.width = "calc(" + IndentValue + " - " + (50 * CurrAtt) + "px)";
     	document.activeElement.setAttribute("data-indent", CurrAtt);
     	if (CurrAtt == 0) {
     		document.activeElement.setAttribute("data-incont", 0);
@@ -229,10 +272,9 @@
 					var ContMark = document.getElementById("Cont" + i);
 					ContMark.id = "Cont" + (i + 1);
 					ContMark.innerText = i + 1;
-					//Change the contention markers	
+					//Change the contention markers
+					SubNum[i + 1] = SubNum[i];
 				}
-				
-				//var DOMArray = document.getElementsByTagName("INPUT");
 			}
 
 			
@@ -263,15 +305,15 @@
 		//InNum.innerHTML = "<h1>" + ContNum + "</h1>";
 		InNum.innerText = ThisCont;
 		InNum.style.position = "absolute";
-		InNum.style.left = "90px";
+		InNum.style.marginLeft = "-30px";
 		El.setAttribute("data-cont", ThisCont);
 		El.style.padding = "15px 0";
 		El.style.marginTop = "25px";
-		InNum.style.marginTop = "25px";
+		InNum.style.marginTop = "20px";
 		if (Number(El.getAttribute("data-indent")) != 0) {
 			El.setAttribute("data-indent", 0);
-			El.style.left = 0;
-			El.style.width = "99%";
+			El.style.marginLeft = 0;
+			El.style.width = IndentValue;
 		}
 		document.getElementById("MainContent").insertBefore(InNum, El);
 		ContNum++;
@@ -293,7 +335,6 @@
 		if (DetElNum() < Fields) {
 			//If the field you're de-cont-ing isn't the last field...
 			
-
 			if (ThisCont < ContNum) {
 				//If this contention isn't the newest contention
 				for (var i = (ThisCont + 1); i <= ContNum; i++) {
@@ -301,34 +342,30 @@
 					ContMark.id = "Cont" + (i - 1);
 					ContMark.innerText = Number(ContMark.innerText) - 1;
 					//Change the contention markers	
-				}
-
-				//var DOMArray = document.getElementsByTagName("INPUT");
-				for (var j = (DetElNum() + 1) ; j <= Fields; j++) {
-					var ValueHolder = Number(document.getElementById("Input" + j).getAttribute("data-incont"));
-					if (ValueHolder >= ThisCont) {
-						document.getElementById("Input" + j).setAttribute("data-incont", (ValueHolder - 1));
-						//Change the In Contention attributes...
-					}
-
-					ValueHolder = Number(document.getElementById("Input" + j).getAttribute("data-cont"));
-					if (ValueHolder >= ThisCont) {
-						document.getElementById("Input" + j).setAttribute("data-cont", (ValueHolder - 1));
-						//Or for the contention headers, the Contention attribute itself
-					}
+					SubNum[i - 1] = SubNum[i];
 				}
 			}
 
-			/*for (var i = (DetElNum() + 1) ; i <= Fields; i++) {
-				var Ele = document.getElementById("Input" + i);
-				if (Number(Ele.getAttribute("data-incont")) == 0 && Number(Ele.getAttribute("data-cont")) == 0) {
-					Ele.setAttribute("data-incont", ThisCont);
+			for (var j = (DetElNum() + 1) ; j <= Fields; j++) {
+				var ValueHolder = Number(document.getElementById("Input" + j).getAttribute("data-incont"));
+				if (ValueHolder >= ThisCont) {
+					document.getElementById("Input" + j).setAttribute("data-incont", (ValueHolder - 1));
+					//Change the In Contention attributes...
+					if (ValueHolder == 1) {
+						//If they're no longer in a contention, de-indent them
+						document.getElementById("Input" + j).setAttribute("data-indent", 0);
+						document.getElementById("Input" + j).style.marginLeft = 0;
+						document.getElementById("Input" + j).style.width = IndentValue;
+					}
 				}
-			}*/
 
+				ValueHolder = Number(document.getElementById("Input" + j).getAttribute("data-cont"));
+				if (ValueHolder >= ThisCont) {
+					document.getElementById("Input" + j).setAttribute("data-cont", (ValueHolder - 1));
+					//Or for the contention headers, the Contention attribute itself
+				}
+			}
 		}
-
-
 		
 		ContNum--;
 	}
@@ -398,15 +435,15 @@
 		//InNum.innerHTML = "<h1>" + ContNum + "</h1>";
 		InNum.innerText = ThisSub;
 		InNum.style.position = "absolute";
-		InNum.style.left = "150px";
+		InNum.style.marginLeft = "30px";
 		El.setAttribute("data-sub", ThisSub);
 		El.style.padding = "5px 0";
 		El.style.marginTop = "10px";
 		InNum.style.marginTop = "10px";
 		if (Number(El.getAttribute("data-indent")) != 1) {
 			El.setAttribute("data-indent", 0);
-			El.style.left = 0;
-			El.style.width = "99%";
+			El.style.marginLeft = 0;
+			El.style.width = IndentValue;
 			IndentIn(El);
 		}
 		document.getElementById("MainContent").insertBefore(InNum, El);
@@ -420,7 +457,7 @@
 		}
 
 		var ThisCont = Number(El.getAttribute("data-incont"));
-		var ThisSub = Number(El.getAttribute("data-insub"));
+		var ThisSub = Number(El.getAttribute("data-sub"));
 
 		El.setAttribute("data-sub", 0);
 		if (DetElNum() != 1 && Number(document.getElementById("Input" + (DetElNum() - 1)).getAttribute("data-insub")) != 0) {
@@ -429,7 +466,7 @@
 		}
 		El.style.padding = "0";
 		El.style.margin = "0";
-		document.getElementById("MainContent").removeChild(document.getElementById("Sub" + ThisSub));
+		document.getElementById("MainContent").removeChild(document.getElementById(ThisCont + "Sub" + ThisSub));
 
 		if (DetElNum() < Fields) {
 			//If the field you're de-sub-ing isn't the last field...
@@ -441,26 +478,70 @@
 					ContMark.innerText = Number(ContMark.innerText) - 1;
 					//Change the subpoint markers
 				}
+			}
 
-				for (var j = (DetElNum() + 1) ; j <= Fields; j++) {
-					if (Number(document.getElementById("Input" + j).getAttribute("data-cont")) != 0) {
-						break;
-					}
-					var ValueHolder = Number(document.getElementById("Input" + j).getAttribute("data-insub"));
-					if (ValueHolder >= ThisSub) {
-						document.getElementById("Input" + j).setAttribute("data-insub", (ValueHolder - 1));
-						//Change the In Subpoint attributes...
-					}
-
-					ValueHolder = Number(document.getElementById("Input" + j).getAttribute("data-sub"));
-					if (ValueHolder >= ThisSub) {
-						document.getElementById("Input" + j).setAttribute("data-sub", (ValueHolder - 1));
-						//Or for the subpoint headers, the Subpoint attribute itself
+			for (var j = (DetElNum() + 1) ; j <= Fields; j++) {
+				if (Number(document.getElementById("Input" + j).getAttribute("data-cont")) != 0) {
+					break;
+				}
+				var ValueHolder = Number(document.getElementById("Input" + j).getAttribute("data-insub"));
+				if (ValueHolder >= ThisSub) {
+					document.getElementById("Input" + j).setAttribute("data-insub", (ValueHolder - 1));
+					//Change the In Subpoint attributes...
+					if (ValueHolder == 1) {
+						//If they're no longer in a subpoint, de-indent them
+						document.getElementById("Input" + j).setAttribute("data-indent", 0);
+						document.getElementById("Input" + j).style.marginLeft = 0;
+						document.getElementById("Input" + j).style.width = IndentValue;
+						IndentIn(document.getElementById("Input" + j));
 					}
 				}
+
+				ValueHolder = Number(document.getElementById("Input" + j).getAttribute("data-sub"));
+				if (ValueHolder >= ThisSub) {
+					document.getElementById("Input" + j).setAttribute("data-sub", (ValueHolder - 1));
+					//Or for the subpoint headers, the Subpoint attribute itself
+				}
 			}
+
 		}
 		SubNum[ThisCont]--;
+	}
+
+	function CreateSource() {
+		var El = document.activeElement;
+
+		if (El.tagName != "INPUT" || Number(El.getAttribute("data-cont")) != 0 || Number(El.getAttribute("data-sub")) != 0 || El.getAttribute("data-source") == "true") {
+			return;
+		}
+
+		var style = window.getComputedStyle(El),
+			MarLeft = style.getPropertyValue('margin-left'),
+			FormInfo = "0 0 0 " + MarLeft;
+
+		IndentIn(El);
+		IndentIn(El);
+		
+		var NewForm = document.createElement("input");
+		NewForm.type = "text";
+		NewForm.id = "Source-" + El.id;
+		NewForm.value = El.value;
+		NewForm.style.position = "absolute";
+		NewForm.style.width = "90px";
+		NewForm.style.margin = FormInfo;
+		NewForm.setAttribute("data-issource", true);
+
+		El.setAttribute("data-source", true);
+		El.value = "";
+		document.getElementById("MainContent").insertBefore(NewForm, El);
+	}
+	function DeleteSource() {
+		var El = document.activeElement;
+		El.value = document.getElementById("Source-" + El.id).value + El.value;
+		IndentOut();
+		IndentOut();
+		document.activeElement.parentNode.removeChild(document.getElementById("Source-" + El.id));
+		El.setAttribute("data-source", false);
 	}
 	
 	
@@ -478,10 +559,7 @@
     	return ElNum;
     }
 	
-	/*
-	** Returns the caret (cursor) position of the specified text field.
-	** Return value range is 0-oField.value.length.
-	*/
+	// Returns the caret (cursor) position of the specified text field.
 	function doGetCaretPosition(oField) {
 
     	// Initialize
