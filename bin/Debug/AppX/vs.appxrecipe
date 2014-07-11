@@ -20,7 +20,7 @@
     <AppXManifest Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\bin\Debug\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2014-07-05T19:27:23.171</Modified>
+      <Modified>2014-07-09T23:17:33.913</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
@@ -38,7 +38,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\pages\item\item.css">
       <PackagePath>pages\item\item.css</PackagePath>
-      <Modified>2014-07-05T18:36:09.943</Modified>
+      <Modified>2014-07-11T20:14:29.895</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\images\logo.scale-100.png">
       <PackagePath>images\logo.scale-100.png</PackagePath>
@@ -86,7 +86,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\pages\item\item.js">
       <PackagePath>pages\item\item.js</PackagePath>
-      <Modified>2014-07-08T02:11:03.692</Modified>
+      <Modified>2014-07-11T20:14:53.560</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\pages\hub\hub.html">
       <PackagePath>pages\hub\hub.html</PackagePath>
@@ -98,7 +98,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\pages\item\item.html">
       <PackagePath>pages\item\item.html</PackagePath>
-      <Modified>2014-07-07T23:44:34.910</Modified>
+      <Modified>2014-07-11T20:14:39.197</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\default.html">
       <PackagePath>default.html</PackagePath>
@@ -106,7 +106,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\bin\Debug\ReverseMap\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2014-07-05T19:27:23.071</Modified>
+      <Modified>2014-07-09T23:17:32.970</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

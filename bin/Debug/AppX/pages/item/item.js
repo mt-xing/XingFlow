@@ -4,6 +4,7 @@
 	var Fields = 1;
 	var ContNum = 0;
 	var SubNum = new Array();
+	var RepNum = 0;
 	var Pressed = false;
 	const IndentValue = "99%";
 	
@@ -22,7 +23,7 @@
 				} else if (e.keyCode == WinJS.Utilities.Key.backspace && TextField.tagName == "INPUT" && TextField.getAttribute("data-source") == "true" && doGetCaretPosition(TextField) == 0) {
 					e.preventDefault();
 					DeleteSource();
-				} else if (e.keyCode == WinJS.Utilities.Key.backspace && TextField.tagName == "INPUT" && doGetCaretPosition(TextField) == 0 && TextField.id != "Input1") {
+				} else if (e.keyCode == WinJS.Utilities.Key.backspace && TextField.tagName == "INPUT" && doGetCaretPosition(TextField) == 0) {
 					DeleteField();
 				} else if (e.keyCode == WinJS.Utilities.Key.enter) {
 					NewField();
@@ -48,6 +49,9 @@
 				} else if (e.keyCode == WinJS.Utilities.Key.rightArrow && TextField.getAttribute("data-issource") == "true" && doGetCaretPosition(TextField) == TextField.value.length) {
 					e.preventDefault();
 					MoveSourceRight();
+				} else if (e.ctrlKey && e.keyCode == WinJS.Utilities.Key.r && TextField.tagName == "INPUT") {
+					Pressed = true;
+					CreateResponse();
 				}
 			
 			});
@@ -64,6 +68,8 @@
 					IndentIn();
 				} else if (e.keyCode == WinJS.Utilities.Key.tab && doGetCaretPosition(TextField) != 0 && TextField.tagName == "INPUT") {
 					CreateSource();
+				} else if (e.ctrlKey && e.keyCode == WinJS.Utilities.Key.r) {
+					Pressed = false;
 				}
 			});
 		}
@@ -91,6 +97,8 @@
 		if (Fields > (ElNum + 1)) {
 			for (var i = (Fields - 1) ; i > ElNum; i--) {
 				document.getElementById("Input" + i).id = "Input" + (i + 1);
+				document.getElementById("DivInput" + i).style.msGridRow = i + 1;
+				document.getElementById("DivInput" + i).id = "DivInput" + (i + 1);
 			}
 		}
 	
@@ -101,6 +109,12 @@
 		input.setAttribute("data-cont", 0);
 		input.setAttribute("data-sub", 0);
 		input.setAttribute("data-source", false);
+
+		var Holder = document.createElement("div");
+		Holder.id = "DivInput" + (ElNum + 1);
+		Holder.style.msGridRow = ElNum + 1;
+		Holder.style.msGridColumn = 1;
+		Holder.className = "HolderDiv";
 
 
 		if (Number(El.getAttribute("data-incont")) != 0) {
@@ -121,17 +135,18 @@
 
 		if (document.getElementById("Input" + (ElNum + 2)) == null) {
 			//If this is the newest field
-			PC.appendChild(input);
+			PC.appendChild(Holder);
 		} else if (Number(document.getElementById("Input" + (ElNum + 2)).getAttribute("data-cont")) != 0) {
 			//If this is right before a Contention marker
-			PC.insertBefore(input, document.getElementById("Cont" + (Number(document.getElementById("Input" + (ElNum + 2)).getAttribute("data-cont")))));
+			PC.insertBefore(Holder, document.getElementById("Cont" + (Number(document.getElementById("Input" + (ElNum + 2)).getAttribute("data-cont")))));
 		} else if (Number(document.getElementById("Input" + (ElNum + 2)).getAttribute("data-sub")) != 0) {
 			//If this is right before a Subpoint marker
-			PC.insertBefore(input, document.getElementById((Number(document.getElementById("Input" + (ElNum + 2)).getAttribute("data-incont"))) + "Sub" + (Number(document.getElementById("Input" + (ElNum + 2)).getAttribute("data-sub")))));
+			PC.insertBefore(Holder, document.getElementById((Number(document.getElementById("Input" + (ElNum + 2)).getAttribute("data-incont"))) + "Sub" + (Number(document.getElementById("Input" + (ElNum + 2)).getAttribute("data-sub")))));
 		} else {
 			//Else - if this is neither the newest field nor before anything significant
-			PC.insertBefore(input, document.getElementById("Input" + (ElNum + 2)));
+			PC.insertBefore(Holder, document.getElementById("DivInput" + (ElNum + 2)));
 		}
+		document.getElementById("DivInput" + (ElNum + 1)).appendChild(input);
 
 
 		document.getElementById("Input" + (ElNum + 1)).focus();
@@ -156,6 +171,33 @@
 		
 	}
 	function DeleteField() {
+
+		if (Number(document.activeElement.getAttribute("data-indent")) != 0) {
+			//var IndentNum = Number(document.activeElement.getAttribute("data-indent"));
+			if (Number(document.activeElement.getAttribute("data-incont")) == 0) {
+				//If it's not in a contention at all
+				//for (var i = 0; i < IndentNum; i++) {
+					IndentOut();
+				//}
+				return;
+			} else if (Number(document.activeElement.getAttribute("data-incont")) != 0 && Number(document.activeElement.getAttribute("data-indent")) > 1 && Number(document.activeElement.getAttribute("data-insub")) == 0) {
+				//If it's in a contention but not a subpoint
+				//for (var i = 1; i < IndentNum; i++) {
+					IndentOut();
+				//}
+				return;
+			} else if (Number(document.activeElement.getAttribute("data-incont")) != 0 && Number(document.activeElement.getAttribute("data-indent")) > 2 && Number(document.activeElement.getAttribute("data-insub")) != 0) {
+				//If it's in a subpoint
+				//for (var i = 2; i < IndentNum; i++) {
+					IndentOut();
+				//}
+				return;
+			}
+		}
+
+		if (document.activeElement.id == "Input1") {
+			return;
+		}
 
 		if (Number(document.activeElement.getAttribute("data-cont")) != 0) {
 			DeleteContention();
@@ -315,7 +357,7 @@
 			El.style.marginLeft = 0;
 			El.style.width = IndentValue;
 		}
-		document.getElementById("MainContent").insertBefore(InNum, El);
+		El.parentElement.insertBefore(InNum, El);
 		ContNum++;
 	}
 	function DeleteContention() {
@@ -330,7 +372,7 @@
 		}
 		El.style.padding = "0";
 		El.style.margin = "0";
-		document.getElementById("MainContent").removeChild(document.getElementById("Cont" + ThisCont));
+		document.getElementById("Cont" + ThisCont).parentElement.removeChild(document.getElementById("Cont" + ThisCont));
 
 		if (DetElNum() < Fields) {
 			//If the field you're de-cont-ing isn't the last field...
@@ -446,7 +488,7 @@
 			El.style.width = IndentValue;
 			IndentIn(El);
 		}
-		document.getElementById("MainContent").insertBefore(InNum, El);
+		El.parentElement.insertBefore(InNum, El);
 		SubNum[ThisCont]++;
 	}
 	function DeleteSubpoint() {
@@ -466,7 +508,7 @@
 		}
 		El.style.padding = "0";
 		El.style.margin = "0";
-		document.getElementById("MainContent").removeChild(document.getElementById(ThisCont + "Sub" + ThisSub));
+		document.getElementById(ThisCont + "Sub" + ThisSub).parentElement.removeChild(document.getElementById(ThisCont + "Sub" + ThisSub));
 
 		if (DetElNum() < Fields) {
 			//If the field you're de-sub-ing isn't the last field...
@@ -533,7 +575,7 @@
 
 		El.setAttribute("data-source", true);
 		El.value = "";
-		document.getElementById("MainContent").insertBefore(NewForm, El);
+		El.parentElement.insertBefore(NewForm, El);
 	}
 	function DeleteSource() {
 		var El = document.activeElement;
@@ -544,6 +586,30 @@
 		El.setAttribute("data-source", false);
 	}
 	
+	function CreateResponse() {
+		if (true) {
+			//If this is a new response column - FIX THIS TO CHECK!
+			RepNum++;
+			var StyleHolder = "1fr";
+			for(var i = 0; i < RepNum; i++){
+				StyleHolder += " 1fr";
+				if (i == 2) {
+					break;
+					//3 columns
+				}
+			}
+			document.getElementById("OutsideMainContent").style.msGridColumns = StyleHolder;
+				
+			var NewForm = document.createElement("div");
+			NewForm.id = "ResponseContent" + RepNum;
+			NewForm.style.position = "relative";
+			NewForm.style.msGridColumn = (RepNum + 1);
+			NewForm.style.width = "100%";
+			document.getElementById("OutsideMainContent").appendChild(NewForm);
+
+		}
+	}
+
 	
 	//Determines Element Number
 	function DetElNum() {

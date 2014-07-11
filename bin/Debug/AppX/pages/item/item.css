@@ -12,5 +12,13 @@ input[type=text] {
 }
 
 #MainContent {
+	display: -ms-grid;
+	-ms-grid-columns:1fr;
+	position:relative;
+}
+
+.HolderDiv {
 	position: relative;
+	margin:0;
+	padding:0;
 }
