@@ -38,7 +38,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\pages\item\item.css">
       <PackagePath>pages\item\item.css</PackagePath>
-      <Modified>2014-07-11T20:14:29.895</Modified>
+      <Modified>2014-07-12T01:58:39.030</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\images\logo.scale-100.png">
       <PackagePath>images\logo.scale-100.png</PackagePath>
@@ -86,7 +86,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\pages\item\item.js">
       <PackagePath>pages\item\item.js</PackagePath>
-      <Modified>2014-07-11T20:14:53.560</Modified>
+      <Modified>2014-07-13T15:07:15.607</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\pages\hub\hub.html">
       <PackagePath>pages\hub\hub.html</PackagePath>
@@ -98,7 +98,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\pages\item\item.html">
       <PackagePath>pages\item\item.html</PackagePath>
-      <Modified>2014-07-11T20:14:39.197</Modified>
+      <Modified>2014-07-12T01:50:50.013</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\default.html">
       <PackagePath>default.html</PackagePath>

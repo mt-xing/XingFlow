@@ -2,13 +2,14 @@
 	padding-left: 120px;
 	margin-right: 120px;
 	overflow-y: auto;
-	overflow-x:hidden;
+	overflow-x: auto;
 }
 
 input[type=text] {
 	width:99%;
 	position:relative;
 	display:block;
+	margin: 1px;
 }
 
 #MainContent {

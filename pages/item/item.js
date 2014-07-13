@@ -7,10 +7,10 @@
 	var RepNum = 0;
 	var Pressed = false;
 	const IndentValue = "99%";
+	const MarginTopValue = "1px";
 	
 	WinJS.UI.Pages.define("/pages/item/item.html", {
-		// This function is called whenever a user navigates to this page. It
-		// populates the page elements with the app's data.
+		// This function is called whenever a user navigates to this page. It populates the page elements with the app's data.
 		ready: function (element, options) {
 		    //var item = Data.resolveItemReference(options.item);
 		    //element.querySelector(".titlearea .pagetitle").textContent = item.title;
@@ -23,6 +23,9 @@
 				} else if (e.keyCode == WinJS.Utilities.Key.backspace && TextField.tagName == "INPUT" && TextField.getAttribute("data-source") == "true" && doGetCaretPosition(TextField) == 0) {
 					e.preventDefault();
 					DeleteSource();
+				} else if (e.keyCode == WinJS.Utilities.Key.backspace && TextField.tagName == "INPUT" && TextField.getAttribute("data-isrep") == "true" && doGetCaretPosition(TextField) == 0) {
+					e.preventDefault();
+					DeleteResponse();
 				} else if (e.keyCode == WinJS.Utilities.Key.backspace && TextField.tagName == "INPUT" && doGetCaretPosition(TextField) == 0) {
 					DeleteField();
 				} else if (e.keyCode == WinJS.Utilities.Key.enter) {
@@ -43,16 +46,22 @@
 				} else if (e.altKey && e.keyCode == WinJS.Utilities.Key.s && TextField.tagName == "INPUT" && TextField.getAttribute("data-sub") != 0 && Pressed == false) {
 					Pressed = true;
 					DeleteSubpoint();
+				} else if (e.keyCode == WinJS.Utilities.Key.leftArrow && TextField.getAttribute("data-isrep") == "true" && doGetCaretPosition(TextField) == 0) {
+					e.preventDefault();
+					MoveLeft();
+				} else if (e.keyCode == WinJS.Utilities.Key.rightArrow && (TextField.getAttribute("data-isrep") == "true" || Number(TextField.getAttribute("data-rep")) > 0) && doGetCaretPosition(TextField) == TextField.value.length) {
+					e.preventDefault();
+					MoveRight();
 				} else if (e.keyCode == WinJS.Utilities.Key.leftArrow && TextField.getAttribute("data-source") == "true" && doGetCaretPosition(TextField) == 0) {
 					e.preventDefault();
 					MoveSourceLeft();
 				} else if (e.keyCode == WinJS.Utilities.Key.rightArrow && TextField.getAttribute("data-issource") == "true" && doGetCaretPosition(TextField) == TextField.value.length) {
 					e.preventDefault();
 					MoveSourceRight();
-				} else if (e.ctrlKey && e.keyCode == WinJS.Utilities.Key.r && TextField.tagName == "INPUT") {
+				} /*else if (e.ctrlKey && e.keyCode == WinJS.Utilities.Key.r && TextField.tagName == "INPUT") {
 					Pressed = true;
-					//CreateResponse();
-				}
+					CreateResponse();
+				}*/
 			
 			});
 			document.addEventListener('keyup', function (e) {
@@ -68,13 +77,21 @@
 					IndentIn();
 				} else if (e.keyCode == WinJS.Utilities.Key.tab && doGetCaretPosition(TextField) != 0 && TextField.tagName == "INPUT") {
 					CreateSource();
-				} else if (e.ctrlKey && e.keyCode == WinJS.Utilities.Key.r) {
+				} /*else if (e.ctrlKey && e.keyCode == WinJS.Utilities.Key.r) {
 					Pressed = false;
+				} */else if (e.ctrlKey && e.keyCode == WinJS.Utilities.Key.r && TextField.tagName == "INPUT") {
+					//Pressed = true;
+					e.preventDefault();
+					CreateResponse();
 				}
 			});
 		}
 	});
 	
+	//====================
+	//Main DOM Functions
+	//====================
+
 	function ChangePage() {
     	var TitleField = document.getElementById("AffNeg");
     	if (TitleField.innerText == "Affirmative") {
@@ -109,6 +126,7 @@
 		input.setAttribute("data-cont", 0);
 		input.setAttribute("data-sub", 0);
 		input.setAttribute("data-source", false);
+		input.setAttribute("data-rep", 0);
 
 		var Holder = document.createElement("div");
 		Holder.id = "DivInput" + (ElNum + 1);
@@ -135,7 +153,7 @@
 
 		if (document.getElementById("Input" + (ElNum + 2)) == null) {
 			//If this is the newest field
-			PC.appendChild(Holder);
+			PC.insertBefore(Holder, document.getElementById("TheGreatDivide"));
 		} else if (Number(document.getElementById("Input" + (ElNum + 2)).getAttribute("data-cont")) != 0) {
 			//If this is right before a Contention marker
 			PC.insertBefore(Holder, document.getElementById("Cont" + (Number(document.getElementById("Input" + (ElNum + 2)).getAttribute("data-cont")))));
@@ -234,12 +252,44 @@
     }
 	
 	function MoveUp() {
+		if (document.activeElement.getAttribute("data-isrep") == "true") {
+			//If this is a response''
+
+			var El = document.activeElement;
+			//NewInput.id = CurrRow + "ResponseInput" + CurrCol;
+			//ResponseContent for Divs
+			var CurrRow = Number(El.id.split("ResponseInput")[0]);
+			var CurrCol = Number(El.id.split("ResponseInput")[1]);
+
+			if (document.getElementById((CurrRow - 1) + "ResponseInput" + CurrCol) != null) {
+				document.getElementById((CurrRow - 1) + "ResponseInput" + CurrCol).focus();
+			}
+
+			return;
+		}
     	var ElNum = DetElNum();
     	document.getElementById("Input" + (ElNum - 1)).focus();
     }
 	function MoveDown() {
+		if (document.activeElement.getAttribute("data-isrep") == "true") {
+			//If this is a response
+
+			var El = document.activeElement;
+			//NewInput.id = CurrRow + "ResponseInput" + CurrCol;
+			//ResponseContent for Divs
+			var CurrRow = Number(El.id.split("ResponseInput")[0]);
+			var CurrCol = Number(El.id.split("ResponseInput")[1]);
+
+			if (document.getElementById((CurrRow + 1) + "ResponseInput" + CurrCol) != null) {
+				document.getElementById((CurrRow + 1) + "ResponseInput" + CurrCol).focus();
+			}
+
+			return;
+		}
     	var ElNum = DetElNum();
-    	document.getElementById("Input" + (ElNum + 1)).focus();
+    	if (document.getElementById("Input" + (ElNum + 1)) != null) {
+    		document.getElementById("Input" + (ElNum + 1)).focus();
+    	}
 	}
 	function MoveSourceLeft() {
 		var El = document.activeElement;
@@ -248,6 +298,41 @@
 	function MoveSourceRight() {
 		var El = document.activeElement;
 		document.getElementById(El.id.substr(7)).focus();
+	}
+	function MoveLeft() {
+		var El = document.activeElement;
+		//NewInput.id = CurrRow + "ResponseInput" + CurrCol;
+		//ResponseContent for Divs
+		var CurrRow = Number(El.id.split("ResponseInput")[0]);
+		var CurrCol = Number(El.id.split("ResponseInput")[1]);
+		//var SourceEl = document.getElementById("Input" + CurrRow);
+
+		if (CurrCol > 1 && document.getElementById(CurrRow + "ResponseInput" + (CurrCol - 1)) != null) {
+			//If this isn't the 1st response
+			document.getElementById(CurrRow + "ResponseInput" + (CurrCol - 1)).focus();
+		} else if (document.getElementById("Input" + CurrRow) != null) {
+			//If this is...
+			document.getElementById("Input" + CurrRow).focus();
+		}
+	}
+	function MoveRight() {
+		var El = document.activeElement;
+		//NewInput.id = CurrRow + "ResponseInput" + CurrCol;
+		//ResponseContent for Divs
+
+		if (El.getAttribute("data-isrep") == "true") {
+			var CurrRow = Number(El.id.split("ResponseInput")[0]);
+			var CurrCol = Number(El.id.split("ResponseInput")[1]);
+		} else {
+			var CurrCol = 0;
+			var CurrRow = Number(El.id.replace("Input", ""));
+		}
+		//var SourceEl = document.getElementById("Input" + CurrRow);
+
+		if (document.getElementById(CurrRow + "ResponseInput" + (CurrCol + 1)) != null) {
+			//If the next response exists...
+			document.getElementById(CurrRow + "ResponseInput" + (CurrCol + 1)).focus();
+		}
 	}
 	
 	function IndentIn(temp) {
@@ -559,7 +644,7 @@
 
 		var style = window.getComputedStyle(El),
 			MarLeft = style.getPropertyValue('margin-left'),
-			FormInfo = "0 0 0 " + MarLeft;
+			FormInfo = MarginTopValue + " 0 0 " + MarLeft;
 
 		IndentIn(El);
 		IndentIn(El);
@@ -587,29 +672,74 @@
 	}
 	
 	function CreateResponse() {
-		if (true) {
-			//If this is a new response column - FIX THIS TO CHECK!
-			RepNum++;
-			var StyleHolder = "1fr";
-			for(var i = 0; i < RepNum; i++){
-				StyleHolder += " 1fr";
-				if (i == 2) {
-					break;
-					//3 columns
-				}
-			}
-			document.getElementById("OutsideMainContent").style.msGridColumns = StyleHolder;
-				
-			var NewForm = document.createElement("div");
-			NewForm.id = "ResponseContent" + RepNum;
-			NewForm.style.position = "relative";
-			NewForm.style.msGridColumn = (RepNum + 1);
-			NewForm.style.width = "100%";
-			document.getElementById("OutsideMainContent").appendChild(NewForm);
+		var El = document.activeElement;
+		if (El.getAttribute("data-isrep") == "true") {
+			var StringTemp = El.id.split("ResponseInput");
+			var CurrCol = Number(StringTemp[1]);
+			var CurrRow = Number(StringTemp[0]);
+		} else {
+			var CurrCol = 0;
+			var CurrRow = Number(El.id.replace("Input", ""));
+		}
+		
+		var SourceEl = document.getElementById("Input" + CurrRow);
 
+		if (CurrCol == RepNum) {
+			//If this is a new response column
+			RepNum++;
+			var StyleHolder = "40vw";
+			for(var i = 0; i < RepNum; i++){
+				StyleHolder += " 30vw";
+			}
+			document.getElementById("MainContent").style.msGridColumns = StyleHolder;
+		} else if (Number(SourceEl.getAttribute("data-rep")) > CurrCol) {
+			MoveRight();
+			return;
+		}
+		CurrCol++;
+		//Insert a new div
+		var NewForm = document.createElement("div");
+		NewForm.id = CurrRow + "ResponseContent" + CurrCol;
+		NewForm.style.position = "relative";
+		NewForm.style.msGridColumn = (CurrCol + 1);
+		NewForm.style.msGridRow = CurrRow;
+		NewForm.style.width = "100%";
+		NewForm.style.margin = MarginTopValue + "5px 0 1px";
+		document.getElementById("MainContent").appendChild(NewForm);
+
+		var NewInput = document.createElement("input");
+		NewInput.type = "text";
+		NewInput.id = CurrRow + "ResponseInput" + CurrCol;
+		NewInput.setAttribute("data-isrep", "true")
+		document.getElementById(CurrRow + "ResponseContent" + CurrCol).appendChild(NewInput);
+
+		if (Number(SourceEl.getAttribute("data-rep")) < CurrCol) {
+			SourceEl.setAttribute("data-rep", CurrCol);
+		}
+		
+		
+		document.getElementById(CurrRow + "ResponseInput" + CurrCol).focus();
+	}
+	function DeleteResponse() {
+		var El = document.activeElement;
+		var CurrRow = Number(El.id.split("ResponseInput")[0]);
+		var CurrCol = Number(El.id.split("ResponseInput")[1]);
+		var SourceEl = document.getElementById("Input" + CurrRow);
+
+		if (Number(SourceEl.getAttribute("data-rep")) > CurrCol) {
+			//If this isn't the last column
+			El.parentElement.removeChild(El);
+			// TODO: Extension arrow should be added here
+		} else {
+			//If this is the last column
+			El.parentElement.removeChild(El);
+			SourceEl.setAttribute("data-rep", (CurrCol - 1));
 		}
 	}
 
+	//====================
+	//Misc. Functions
+	//====================
 	
 	//Determines Element Number
 	function DetElNum() {
