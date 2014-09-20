@@ -1,92 +1,92 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <Machine>MXALIENWARE</Machine>
-    <WindowsUser>Michael</WindowsUser>
+    <Machine>MX-ALIENWARE</Machine>
+    <WindowsUser>mt_xi_000</WindowsUser>
     <TargetPlatformIdentifier>Windows</TargetPlatformIdentifier>
     <SolutionConfiguration>Debug|AnyCPU</SolutionConfiguration>
     <PackageArchitecture>neutral</PackageArchitecture>
     <PackageIdentityName>897e00f4-ef56-4da7-a522-8a06f5b8efcc</PackageIdentityName>
-    <IntermediateOutputPath>C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\bld\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>C:\Users\mt_xi_000\Documents\Projects\Visual Studio 2013\Projects\XingFlow\bld\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <AppXManifest Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\bin\Debug\AppxManifest.xml">
+    <AppXManifest Include="C:\Users\mt_xi_000\Documents\Projects\Visual Studio 2013\Projects\XingFlow\bin\Debug\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
-    <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\css\default.css">
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Visual Studio 2013\Projects\XingFlow\css\default.css">
       <PackagePath>css\default.css</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\pages\hub\hub.css">
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Visual Studio 2013\Projects\XingFlow\pages\hub\hub.css">
       <PackagePath>pages\hub\hub.css</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\pages\section\section.css">
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Visual Studio 2013\Projects\XingFlow\pages\section\section.css">
       <PackagePath>pages\section\section.css</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\pages\item\item.css">
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Visual Studio 2013\Projects\XingFlow\pages\item\item.css">
       <PackagePath>pages\item\item.css</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\images\logo.scale-100.png">
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Visual Studio 2013\Projects\XingFlow\images\logo.scale-100.png">
       <PackagePath>images\logo.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\images\smalllogo.scale-100.png">
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Visual Studio 2013\Projects\XingFlow\images\smalllogo.scale-100.png">
       <PackagePath>images\smalllogo.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\images\splashscreen.scale-100.png">
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Visual Studio 2013\Projects\XingFlow\images\splashscreen.scale-100.png">
       <PackagePath>images\splashscreen.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\images\storelogo.scale-100.png">
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Visual Studio 2013\Projects\XingFlow\images\storelogo.scale-100.png">
       <PackagePath>images\storelogo.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\images\gray.png">
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Visual Studio 2013\Projects\XingFlow\images\gray.png">
       <PackagePath>images\gray.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\js\data.js">
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Visual Studio 2013\Projects\XingFlow\js\data.js">
       <PackagePath>js\data.js</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\js\default.js">
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Visual Studio 2013\Projects\XingFlow\js\default.js">
       <PackagePath>js\default.js</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\js\navigator.js">
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Visual Studio 2013\Projects\XingFlow\js\navigator.js">
       <PackagePath>js\navigator.js</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\pages\hub\hub.js">
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Visual Studio 2013\Projects\XingFlow\pages\hub\hub.js">
       <PackagePath>pages\hub\hub.js</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\pages\section\section.js">
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Visual Studio 2013\Projects\XingFlow\pages\section\section.js">
       <PackagePath>pages\section\section.js</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\pages\item\item.js">
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Visual Studio 2013\Projects\XingFlow\pages\item\item.js">
       <PackagePath>pages\item\item.js</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\pages\hub\hub.html">
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Visual Studio 2013\Projects\XingFlow\pages\hub\hub.html">
       <PackagePath>pages\hub\hub.html</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\pages\section\section.html">
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Visual Studio 2013\Projects\XingFlow\pages\section\section.html">
       <PackagePath>pages\section\section.html</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\pages\item\item.html">
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Visual Studio 2013\Projects\XingFlow\pages\item\item.html">
       <PackagePath>pages\item\item.html</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\default.html">
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Visual Studio 2013\Projects\XingFlow\default.html">
       <PackagePath>default.html</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\Michael\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\bin\Debug\ReverseMap\resources.pri">
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Visual Studio 2013\Projects\XingFlow\bin\Debug\ReverseMap\resources.pri">
       <PackagePath>resources.pri</PackagePath>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>
     <ResolvedSDKReference Include="C:\Program Files %28x86%29\Microsoft SDKs\Windows\v8.1\ExtensionSDKs\Microsoft.WinJS.2.0\1.0\">
       <Name>Microsoft.WinJS.2.0</Name>
-      <Version>1.0.9600.16408</Version>
+      <Version>1.0.9600.17018</Version>
       <Architecture>Neutral</Architecture>
-      <FrameworkIdentity>Name=Microsoft.WinJS.2.0, MinVersion=1.0.9600.16408</FrameworkIdentity>
+      <FrameworkIdentity>Name=Microsoft.WinJS.2.0, MinVersion=1.0.9600.17018</FrameworkIdentity>
       <AppxLocation>C:\Program Files %28x86%29\Microsoft SDKs\Windows\v8.1\ExtensionSDKs\Microsoft.WinJS.2.0\1.0\Microsoft.WinJS.2.0.appx</AppxLocation>
       <MoreInfo>http://go.microsoft.com/fwlink/%3fLinkId=260891</MoreInfo>
     </ResolvedSDKReference>

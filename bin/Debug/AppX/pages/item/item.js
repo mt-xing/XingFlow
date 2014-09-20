@@ -1,10 +1,15 @@
 ﻿(function () {
 	"use strict";
 	
+	//Important DOM Variables
 	var Fields = 1;
 	var ContNum = 0;
 	var SubNum = new Array();
 	var RepNum = 0;
+	var SplitLoc = 1; //The number it splits after (the last AFF one)
+	var CurrAff = true;
+
+	//Other Useful Crap (and Constants)
 	var Pressed = false;
 	const IndentValue = "99%";
 	const MarginTopValue = "1px";
@@ -83,6 +88,10 @@
 					//Pressed = true;
 					e.preventDefault();
 					CreateResponse();
+				} else if (e.ctrlKey && e.keyCode == WinJS.Utilities.Key.s) {
+					SaveFile();
+				} else if (e.ctrlKey && e.keyCode == WinJS.Utilities.Key.o) {
+					OpenFile();
 				}
 			});
 		}
@@ -93,13 +102,68 @@
 	//====================
 
 	function ChangePage() {
-    	var TitleField = document.getElementById("AffNeg");
-    	if (TitleField.innerText == "Affirmative") {
-    		TitleField.innerText = "Negative";
-    	} else {
-    		TitleField.innerText = "Affirmative";
-    	}
-    }
+		var El = document.activeElement;
+		var TitleField = document.getElementById("AffNeg");
+		if (CurrAff) {
+			CurrAff = false;
+	
+			if (SplitLoc == Fields) {
+				document.getElementById("Input" + Fields).focus();
+				NewField();
+				if (Number(document.activeElement.getAttribute("data-indent")) != 0) {
+					for (i = 0; i < document.activeElement.getAttribute("data-indent") ; i++) {
+						IndentOut();
+					}
+				}
+			}
+	
+			TitleField.innerText = "Negative";
+			for (var i = 1; i <= SplitLoc; i++) {
+				document.getElementById("DivInput" + i).style.display = "none";
+	
+				for (var j = 1; j <= Number(document.getElementById("Input" + i).getAttribute("data-rep")) ; j++) {
+					var Ele = document.getElementById("Input" + i);
+					var CurrRow = Number(Ele.id.substring(5));
+	
+					document.getElementById(CurrRow + "ResponseContent" + j).style.display = "none";
+	
+				}
+			}
+			for (var i = (SplitLoc + 1) ; i <= Fields; i++) {
+				document.getElementById("DivInput" + i).style.display = "block";
+
+				for (var j = 1; j <= Number(document.getElementById("Input" + i).getAttribute("data-rep")) ; j++) {
+					var Ele = document.getElementById("Input" + i);
+					var CurrRow = Number(Ele.id.substring(5));
+
+					//NewInput.id = CurrRow + "ResponseInput" + CurrCol;
+					document.getElementById(CurrRow + "ResponseContent" + j).style.display = "block";
+				}
+			}
+		} else {
+			CurrAff = true;
+			TitleField.innerText = "Affirmative";
+			for (var i = 1; i <= SplitLoc; i++) {
+				document.getElementById("DivInput" + i).style.display = "block";
+
+				for (var j = 1; j <= Number(document.getElementById("Input" + i).getAttribute("data-rep")) ; j++) {
+					var Ele = document.getElementById("Input" + i);
+					var CurrRow = Number(Ele.id.substring(5));
+
+					document.getElementById(CurrRow + "ResponseContent" + j).style.display = "block";
+				}
+			}
+			for (var i = (SplitLoc + 1) ; i <= Fields; i++) {
+				document.getElementById("DivInput" + i).style.display = "none";
+				for (var j = 1; j <= Number(document.getElementById("Input" + i).getAttribute("data-rep")) ; j++) {
+					var Ele = document.getElementById("Input" + i);
+					var CurrRow = Number(Ele.id.substring(5));
+
+					document.getElementById(CurrRow + "ResponseContent" + j).style.display = "none";
+				}
+			}
+		}
+	}
 	
 	function NewField() {
 		var PC = document.getElementById("MainContent");
@@ -113,9 +177,23 @@
 	
 		if (Fields > (ElNum + 1)) {
 			for (var i = (Fields - 1) ; i > ElNum; i--) {
+				
+				if (Number(document.getElementById("Input" + i).getAttribute("data-rep")) > 0) {
+					for (var j = 1; j <= Number(document.getElementById("Input" + i).getAttribute("data-rep")) ; j++) {
+						document.getElementById(i + "ResponseContent" + j).style.msGridRow = (i + 1);
+						if (document.getElementById(i + "ResponseInput" + j).getAttribute("data-source") == "true") {
+							document.getElementById("Source-" + i + "ResponseContent" + j).id = "Source-" + (i + 1) + "ResponseContent" + j;
+						}
+
+						document.getElementById(i + "ResponseContent" + j).id = (i + 1) + "ResponseContent" + j;
+						document.getElementById(i + "ResponseInput" + j).id = (i + 1) + "ResponseInput" + j;
+					}
+				}
 				document.getElementById("Input" + i).id = "Input" + (i + 1);
 				document.getElementById("DivInput" + i).style.msGridRow = i + 1;
 				document.getElementById("DivInput" + i).id = "DivInput" + (i + 1);
+				//NewForm.id = CurrRow + "ResponseContent" + CurrCol;
+				//ResponseInput
 			}
 		}
 	
@@ -153,15 +231,16 @@
 
 		if (document.getElementById("Input" + (ElNum + 2)) == null) {
 			//If this is the newest field
-			PC.insertBefore(Holder, document.getElementById("TheGreatDivide"));
-		} else if (Number(document.getElementById("Input" + (ElNum + 2)).getAttribute("data-cont")) != 0) {
-			//If this is right before a Contention marker
-			PC.insertBefore(Holder, document.getElementById("Cont" + (Number(document.getElementById("Input" + (ElNum + 2)).getAttribute("data-cont")))));
-		} else if (Number(document.getElementById("Input" + (ElNum + 2)).getAttribute("data-sub")) != 0) {
-			//If this is right before a Subpoint marker
-			PC.insertBefore(Holder, document.getElementById((Number(document.getElementById("Input" + (ElNum + 2)).getAttribute("data-incont"))) + "Sub" + (Number(document.getElementById("Input" + (ElNum + 2)).getAttribute("data-sub")))));
+			if (CurrAff && Fields > SplitLoc) {
+				//If this is aff and there's stuff in Neg
+				PC.insertBefore(Holder, document.getElementById("Input" + (SplitLoc + 1)));
+
+			} else {
+				PC.insertBefore(Holder, document.getElementById("TheGreatDivide"));
+
+			}
+
 		} else {
-			//Else - if this is neither the newest field nor before anything significant
 			PC.insertBefore(Holder, document.getElementById("DivInput" + (ElNum + 2)));
 		}
 		document.getElementById("DivInput" + (ElNum + 1)).appendChild(input);
@@ -185,6 +264,10 @@
 
 		if (Number(El.getAttribute("data-sub")) != 0) {
 			IndentIn();
+		}
+
+		if (CurrAff) {
+			SplitLoc++;
 		}
 		
 	}
@@ -243,7 +326,22 @@
 		//Finally, we rename all the subsequent fields so they're still consecutive
     	if (Fields != IDNum) {
     		for (var i = (IDNum + 1) ; i <= Fields; i++) {
-    			document.getElementById("Input" + i).id = "Input" + (i - 1);
+
+    			document.getElementById("Input" + i).style.msGridRow = (i - 1);
+
+    			if (Number(document.getElementById("Input" + i).getAttribute("data-rep")) > 0) {
+    				for (var j = 1; j <= Number(document.getElementById("Input" + i).getAttribute("data-rep")) ; j++) {
+    					document.getElementById(i + "ResponseContent" + j).style.msGridRow = (i - 1);
+    					if (document.getElementById(i + "ResponseInput" + j).getAttribute("data-source") == "true") {
+    						document.getElementById("Source-" + i + "ResponseContent" + j).id = "Source-" + (i - 1) + "ResponseContent" + j;
+    					}
+
+    					document.getElementById(i + "ResponseContent" + j).id = (i - 1) + "ResponseContent" + j;
+    					document.getElementById(i + "ResponseInput" + j).id = (i - 1) + "ResponseInput" + j;
+    				}
+    			}
+
+    			//document.getElementById("Input" + i).id = "Input" + (i - 1);
     		}
     	}
 
@@ -287,7 +385,9 @@
 			return;
 		}
     	var ElNum = DetElNum();
-    	document.getElementById("Input" + (ElNum + 1)).focus();
+    	if (document.getElementById("Input" + (ElNum + 1)) != null) {
+    		document.getElementById("Input" + (ElNum + 1)).focus();
+    	}
 	}
 	function MoveSourceLeft() {
 		var El = document.activeElement;
@@ -733,6 +833,183 @@
 			El.parentElement.removeChild(El);
 			SourceEl.setAttribute("data-rep", (CurrCol - 1));
 		}
+	}
+
+	//====================
+	//Working w/ Files
+	//====================
+
+	function SaveFile() {
+		var currentState = Windows.UI.ViewManagement.ApplicationView.value;
+		if (currentState === Windows.UI.ViewManagement.ApplicationViewState.snapped &&
+			!Windows.UI.ViewManagement.ApplicationView.tryUnsnap()) {
+			// Fail silently if we can't unsnap
+			return;
+		}
+		//=================
+		//THIS IS WHERE THE SHTUFF ACTUALLY HAPPENS
+		//=================
+
+		var SavingContent = Fields + "\n" + ContNum + "\n" + RepNum + "\n" + SubNum + "\n" + SplitLoc + "\n";
+		SavingContent += document.getElementById("MainContent").innerHTML.replace(/(\r\n|\n|\r)/gm, "") + "\n";
+
+		var NumRep = 0;
+
+		for (var i = 1; i <= Fields; i++) {
+			SavingContent += document.getElementById("Input" + i).value + "\n";
+			//We can add a variable that tracks the number of responses and then loop through that to get the stuff in the respones dialogs
+			
+			if (document.getElementById("Input" + i).getAttribute("data-source") == "true") {
+				SavingContent += document.getElementById("Source-Input" + i).value + "\n";
+				//document.getElementById("Source-Input" + i).value = SplitContent[k];
+			}
+
+			for (var j = 1; j <= Number(document.getElementById("Input" + i).getAttribute("data-rep")) ; j++) {
+				var El = document.getElementById("Input" + i);
+				var CurrRow = Number(El.id.substring(5));
+
+				//NewInput.id = CurrRow + "ResponseInput" + CurrCol;
+				SavingContent += document.getElementById(CurrRow + "ResponseInput" + j).value + "\n";
+
+				if (document.getElementById(CurrRow + "ResponseInput" + j).getAttribute("data-source") == "true") {
+					SavingContent += document.getElementById("Source-" + CurrRow + "ResponseInput" + j).value + "\n";
+					//document.getElementById("Source-Input" + i).value = SplitContent[k];
+				}
+			}
+
+			//We also need to track sources.
+		}
+		
+
+		// Create the picker object and set options
+		var savePicker = new Windows.Storage.Pickers.FileSavePicker();
+		savePicker.suggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.desktop;
+		// Dropdown of file types the user can save the file as
+		savePicker.fileTypeChoices.insert("Xing Flow", [".xflow"]);
+		// Default file name if the user does not type one in or select a file to replace
+		savePicker.suggestedFileName = "Epic Flow";
+
+
+		savePicker.pickSaveFileAsync().then(function (file) {
+			if (file) {
+				// Prevent updates to the remote version of the file until we finish making changes and call CompleteUpdatesAsync.
+				Windows.Storage.CachedFileManager.deferUpdates(file);
+				// write to file
+				Windows.Storage.FileIO.writeTextAsync(file, SavingContent).done(function () {
+					// Let Windows know that we're finished changing the file so the other app can update the remote version of the file.
+					// Completing updates may require Windows to ask for user input.
+					Windows.Storage.CachedFileManager.completeUpdatesAsync(file).done(function (updateStatus) {
+						if (updateStatus === Windows.Storage.Provider.FileUpdateStatus.complete) {
+							WinJS.log && WinJS.log("File " + file.name + " was saved.", "sample", "status");
+						} else {
+							WinJS.log && WinJS.log("File " + file.name + " couldn't be saved.", "sample", "status");
+						}
+					});
+				});
+			} else {
+				WinJS.log && WinJS.log("Operation cancelled.", "sample", "status");
+			}
+		});
+
+	}
+	function OpenFile() {
+
+		var SavingContent = "";
+
+		// Verify that we are currently not snapped, or that we can unsnap to open the picker
+		var currentState = Windows.UI.ViewManagement.ApplicationView.value;
+		if (currentState === Windows.UI.ViewManagement.ApplicationViewState.snapped &&
+			!Windows.UI.ViewManagement.ApplicationView.tryUnsnap()) {
+			// Fail silently if we can't unsnap
+			return;
+		}
+
+		// Create the picker object and set options
+		var openPicker = new Windows.Storage.Pickers.FileOpenPicker();
+		openPicker.viewMode = Windows.Storage.Pickers.PickerViewMode.list;
+		openPicker.suggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.desktop;
+		// Users expect to have a filtered view of their folders depending on the scenario.
+		// For example, when choosing a documents folder, restrict the filetypes to documents for your application.
+		openPicker.fileTypeFilter.replaceAll([".xflow"]);
+
+		// Open the picker for the user to pick a file
+		openPicker.pickSingleFileAsync().then(function (file) {
+			if (file) {
+				// Application now has read/write access to the picked file
+				//WinJS.log && WinJS.log("Picked photo: " + file.name, "sample", "status");
+				Windows.Storage.FileIO.readTextAsync(file).then(function (contents) {
+					// Add code to process the text read from the file
+
+					//=================
+					//THIS IS WHERE THE SHTUFF ACTUALLY HAPPENS
+					//=================
+
+					var SplitContent = contents.split("\n");
+
+					//(new Windows.UI.Popups.MessageDialog("Debug Contents:\n" + SplitContent, "Title")).showAsync().done();
+					Fields = SplitContent[0];
+					ContNum = SplitContent[1];
+					RepNum = SplitContent[2];
+					SubNum = SplitContent[3].split(",");
+					SplitLoc = SplitContent[4];
+					document.getElementById("MainContent").innerHTML = SplitContent[5];
+					
+					var k = 6;
+					//SplitContent Iterator
+
+					for (var i = 1; i <= (Fields); i++) {
+						document.getElementById("Input" + i).value = SplitContent[k];
+
+						if (document.getElementById("Input" + i).getAttribute("data-source") == "true")	{
+							k++;
+							document.getElementById("Source-Input" + i).value = SplitContent[k];
+						}
+						k++;
+
+						for (var j = 1; j <= Number(document.getElementById("Input" + i).getAttribute("data-rep")) ; j++) {
+							var El = document.getElementById("Input" + i);
+							var CurrRow = Number(El.id.substring(5));
+
+							//NewInput.id = CurrRow + "ResponseInput" + CurrCol;
+							document.getElementById(CurrRow + "ResponseInput" + j).value = SplitContent[k];
+							k++;
+
+							if (document.getElementById(CurrRow + "ResponseInput" + j).getAttribute("data-source") == "true") {
+								document.getElementById("Source-" + CurrRow + "ResponseInput" + j).value = SplitContent[j];
+								//document.getElementById("Source-Input" + i).value = SplitContent[k];
+								j++;
+							}
+						}
+					}
+
+					var StyleHolder = "40vw";
+					for (var i = 0; i < RepNum; i++) {
+						StyleHolder += " 30vw";
+					}
+					document.getElementById("MainContent").style.msGridColumns = StyleHolder;
+
+				});
+			} else {
+				// The picker was dismissed with no selected file
+				WinJS.log && WinJS.log("Operation cancelled.", "sample", "status");
+			}
+		});
+
+
+
+
+		//THIS IS WHAT IS BEING READ FROM FILE
+		//var SavingContent = "";
+		/*if (SavingContent == null) {
+			//(new Windows.UI.Popups.MessageDialog("Nope", "Title")).showAsync().done();
+			document.getElementById("MainContent").innerHTML += "<h1>NOPE</h1>";
+			return;
+		}*/
+			//This is the variable
+		
+
+
+		
 	}
 
 	//====================
