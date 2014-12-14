@@ -1,0 +1,59 @@
+﻿.itempage .content {
+	padding-left: 120px;
+	margin-right: 120px;
+	overflow-y: auto;
+	overflow-x: auto;
+}
+
+input[type=text] {
+	width:99%;
+	position:relative;
+	display:block;
+	margin: 1px;
+}
+
+#MainContent {
+	display: -ms-grid;
+	-ms-grid-columns:1fr;
+	position:relative;
+}
+
+.HolderDiv {
+	position: relative;
+	margin:0;
+	padding:0;
+}
+
+.flow section {
+	margin: auto 120px;
+}
+
+.phone .flow .page-section {
+	margin: auto 24px;
+}
+
+.phone .flow .page-header .titlearea {
+	-ms-grid-column: 1;
+	margin-top: 37px;
+	margin-left: 24px;
+	font-size: 28pt;
+	width: calc(100vw - 20px);
+}
+
+.phone .flow .back-button {
+	display: none;
+}
+
+.fragment {
+	-ms-grid-columns: 1fr;
+	-ms-grid-rows: 128px 1fr;
+	display: -ms-grid;
+	height: 100%;
+	width: 100%;
+}
+
+	.fragment section[role=main] {
+		-ms-grid-row: 2;
+		height: 100%;
+	}
+	
