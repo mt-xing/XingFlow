@@ -25,6 +25,18 @@
     <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\pages\home\home.css">
       <PackagePath>pages\home\home.css</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\images\Blank Library.png">
+      <PackagePath>images\Blank Library.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\images\Configure alt 2.png">
+      <PackagePath>images\Configure alt 2.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\images\Documents.png">
+      <PackagePath>images\Documents.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\images\Groups.png">
+      <PackagePath>images\Groups.png</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\images\logo.scale-100.png">
       <PackagePath>images\logo.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>

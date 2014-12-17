@@ -241,7 +241,7 @@
 
     	if (document.getElementById("Input" + (ElNum + 2)) == null) {
     		//If this is the newest field
-    		if (CurrAff && Fields > SplitLoc) {
+    		if (CurrAff && (Fields > (SplitLoc + 1))) {
     			//If this is aff and there's stuff in Neg
     			PC.insertBefore(Holder, document.getElementById("Input" + (SplitLoc + 1)));
 
@@ -539,12 +539,14 @@
     	InNum.id = "Cont" + ThisCont;
     	//InNum.innerHTML = "<h1>" + ContNum + "</h1>";
     	InNum.innerText = ThisCont;
+		/*
     	InNum.style.position = "absolute";
-    	InNum.style.marginLeft = "-30px";
-    	El.setAttribute("data-cont", ThisCont);
-    	El.style.padding = "15px 0";
-    	El.style.marginTop = "25px";
     	InNum.style.marginTop = "20px";
+    	InNum.style.marginLeft = "-30px";*/
+    	InNum.className = "ContentionMarker";
+    	El.setAttribute("data-cont", ThisCont);
+    	El.style.padding = "15px 0 15px 15px";
+    	El.style.marginTop = "25px";
     	if (Number(El.getAttribute("data-indent")) != 0) {
     		El.setAttribute("data-indent", 0);
     		El.style.marginLeft = 0;

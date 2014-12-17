@@ -20,7 +20,7 @@
     <AppXManifest Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\bin\Debug\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2014-12-14T16:50:59.316</Modified>
+      <Modified>2014-12-14T20:57:17.369</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
@@ -30,11 +30,27 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\pages\flow\flow.css">
       <PackagePath>pages\flow\flow.css</PackagePath>
-      <Modified>2014-12-14T16:47:09.150</Modified>
+      <Modified>2014-12-17T02:47:51.776</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\pages\home\home.css">
       <PackagePath>pages\home\home.css</PackagePath>
-      <Modified>2014-12-14T15:52:37.052</Modified>
+      <Modified>2014-12-14T21:03:54.661</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\images\Blank Library.png">
+      <PackagePath>images\Blank Library.png</PackagePath>
+      <Modified>2012-11-03T19:36:14.118</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\images\Configure alt 2.png">
+      <PackagePath>images\Configure alt 2.png</PackagePath>
+      <Modified>2012-11-03T03:15:33.674</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\images\Documents.png">
+      <PackagePath>images\Documents.png</PackagePath>
+      <Modified>2012-11-09T23:18:51.069</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\images\Groups.png">
+      <PackagePath>images\Groups.png</PackagePath>
+      <Modified>2012-11-09T23:23:58.449</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\images\logo.scale-100.png">
       <PackagePath>images\logo.scale-100.png</PackagePath>
@@ -66,7 +82,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\pages\flow\flow.js">
       <PackagePath>pages\flow\flow.js</PackagePath>
-      <Modified>2014-12-14T16:49:18.328</Modified>
+      <Modified>2014-12-17T02:48:50.837</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\pages\home\home.js">
       <PackagePath>pages\home\home.js</PackagePath>
@@ -78,7 +94,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\pages\home\home.html">
       <PackagePath>pages\home\home.html</PackagePath>
-      <Modified>2014-12-14T16:43:33.304</Modified>
+      <Modified>2014-12-15T02:17:08.516</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\default.html">
       <PackagePath>default.html</PackagePath>
@@ -86,7 +102,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\bin\Debug\ReverseMap\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2014-12-14T16:50:59.207</Modified>
+      <Modified>2014-12-14T20:57:17.240</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

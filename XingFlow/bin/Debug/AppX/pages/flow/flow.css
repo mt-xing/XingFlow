@@ -5,6 +5,11 @@
 	overflow-x: auto;
 }
 
+.page-section {
+	overflow-y: auto;
+	overflow-x: auto;
+}
+
 input[type=text] {
 	width:99%;
 	position:relative;
@@ -15,6 +20,7 @@ input[type=text] {
 #MainContent {
 	display: -ms-grid;
 	-ms-grid-columns:1fr;
+	-ms-grid-rows:auto;
 	position:relative;
 }
 
@@ -23,6 +29,18 @@ input[type=text] {
 	margin:0;
 	padding:0;
 }
+
+.ContentionMarker {
+	position: absolute;
+	margin-top: 20px;
+	margin-left: 3px;
+	color: blue;
+	z-index: 1;
+}
+
+/*
+	Begin Pre-Made Formatting
+*/
 
 .flow section {
 	margin: auto 120px;
@@ -57,3 +75,9 @@ input[type=text] {
 		height: 100%;
 	}
 	
+
+.HolderDiv {
+	position: relative;
+	margin:0;
+	padding:0;
+}
