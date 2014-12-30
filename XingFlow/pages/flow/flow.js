@@ -1,25 +1,26 @@
 ﻿// For an introduction to the Page Control template, see the following documentation:
 // http://go.microsoft.com/fwlink/?LinkId=232511
 (function () {
-    "use strict";
-
+	"use strict";
+	
 	//Important DOM Variables
-    var Fields = 1;
-    var ContNum = 0;
-    var SubNum = new Array();
-    var RepNum = 0;
-    var SplitLoc = 1; //The number it splits after (the last AFF one)
-    var CurrAff = true;
-
+	var Fields = 1;
+	var ContNum = 0;
+	var AffContNum = 0;//The number of contentions in AFF
+	var SubNum = new Array();
+	var RepNum = 0;
+	var SplitLoc = 1; //The number it splits after (the last AFF one)
+	var CurrAff = true;
+	
 	//Other Useful Crap (and Constants)
-    var Pressed = false;
-    const IndentValue = "99%";
-    const MarginTopValue = "1px";
-
-
-    WinJS.UI.Pages.define("/pages/flow/flow.html", {
-        // This function is called whenever a user navigates to this page. It
-        // populates the page elements with the app's data.
+	var Pressed = false;
+	const IndentValue = "99%";
+	const MarginTopValue = "1px";
+	
+	
+	WinJS.UI.Pages.define("/pages/flow/flow.html", {
+	    // This function is called whenever a user navigates to this page. It
+	    // populates the page elements with the app's data.
         ready: function (element, options) {
         	// TODO: Initialize the page here.
 
@@ -176,6 +177,13 @@
     }
 
     function NewField() {
+
+    	//If we're inside a response, we'll call a separate response function and break out of this one
+    	if (document.activeElement.getAttribute("data-isrep") == "true") {
+    		NewResponseField();
+    		return;
+    	}
+
     	var PC = document.getElementById("MainContent");
     	//PC stands for Page Content
     	var ElNum = DetElNum();
@@ -332,12 +340,14 @@
     	}
     	//Then, we kill the field
     	El.parentNode.removeChild(El);
+    	//Let's remember to kill the container too, shall we?
+    	document.getElementById("Div" + El.id).parentNode.removeChild(document.getElementById("Div" + El.id));
 
     	//Finally, we rename all the subsequent fields so they're still consecutive
     	if (Fields != IDNum) {
     		for (var i = (IDNum + 1) ; i <= Fields; i++) {
 
-    			document.getElementById("Input" + i).style.msGridRow = (i - 1);
+    			document.getElementById("DivInput" + i).style.msGridRow = (i - 1);
 
     			if (Number(document.getElementById("Input" + i).getAttribute("data-rep")) > 0) {
     				for (var j = 1; j <= Number(document.getElementById("Input" + i).getAttribute("data-rep")) ; j++) {
@@ -351,7 +361,8 @@
     				}
     			}
 
-    			//document.getElementById("Input" + i).id = "Input" + (i - 1);
+    			document.getElementById("DivInput" + i).id = "DivInput" + (i - 1);
+    			document.getElementById("Input" + i).id = "Input" + (i - 1);
     		}
     	}
 
@@ -360,24 +371,49 @@
     }
 
     function MoveUp() {
-    	if (document.activeElement.getAttribute("data-isrep") == "true") {
-    		//If this is a response''
-
-    		var El = document.activeElement;
-    		//NewInput.id = CurrRow + "ResponseInput" + CurrCol;
-    		//ResponseContent for Divs
-    		var CurrRow = Number(El.id.split("ResponseInput")[0]);
-    		var CurrCol = Number(El.id.split("ResponseInput")[1]);
-
-    		if (document.getElementById((CurrRow - 1) + "ResponseInput" + CurrCol) != null) {
-    			document.getElementById((CurrRow - 1) + "ResponseInput" + CurrCol).focus();
-    		}
-
-    		return;
-    	}
-    	var ElNum = DetElNum();
-    	document.getElementById("Input" + (ElNum - 1)).focus();
-    }
+		if (document.activeElement.getAttribute("data-isrep") == "true") {
+			//If this is a response''
+	
+			var El = document.activeElement;
+			//NewInput.id = CurrRow + "ResponseInput" + CurrCol;
+			//ResponseContent for Divs
+			var CurrRow = Number(El.id.split("ResponseInput")[0]);
+			var CurrCol = Number(El.id.split("ResponseInput")[1]);
+	
+			
+	
+			if (El.getAttribute("data-reprow") != null) {
+				//If this is one of many responses to the same point
+				var CurrRepNum = Number(El.getAttribute("data-reprow"));
+				if (CurrRepNum == 1) {
+					document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput")).focus  ();
+				} else {
+					document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") +	(CurrRepNum - 1)).focus();
+				}
+				
+			} else if (document.getElementById((CurrRow - 1) + "ResponseInput" + CurrCol).getAttribute("data-   hasreprow") == 'true' && document.getElementById((CurrRow - 1) + "ResponseInput" + CurrCol) != null)    {
+				//If the response on top also has many responses to the same point
+				var i = 1;
+				while (true) {
+					if (document.getElementById((CurrRow - 1) + "ResponseInput" + CurrCol + i) != null) {
+						i++;
+					} else {
+						document.getElementById((CurrRow - 1) + "ResponseInput" + CurrCol + (i - 1)).focus();
+						break;
+					}
+				}
+	
+	
+			} else if (document.getElementById((CurrRow - 1) + "ResponseInput" + CurrCol) != null) {
+				//If this is the top or only response to a point
+				document.getElementById((CurrRow - 1) + "ResponseInput" + CurrCol).focus();
+			}
+	
+			return;
+		}
+		var ElNum = DetElNum();
+		document.getElementById("Input" + (ElNum - 1)).focus();
+	}
     function MoveDown() {
     	if (document.activeElement.getAttribute("data-isrep") == "true") {
     		//If this is a response
@@ -390,6 +426,8 @@
 
     		if (document.getElementById((CurrRow + 1) + "ResponseInput" + CurrCol) != null) {
     			document.getElementById((CurrRow + 1) + "ResponseInput" + CurrCol).focus();
+    		} else if (document.getElementById("Input" + (CurrRow + 1)) != null) {
+    			document.getElementById("Input" + (CurrRow + 1)).focus();
     		}
 
     		return;
@@ -415,7 +453,8 @@
     	var CurrCol = Number(El.id.split("ResponseInput")[1]);
     	//var SourceEl = document.getElementById("Input" + CurrRow);
 
-    	if (CurrCol > 1 && document.getElementById(CurrRow + "ResponseInput" + (CurrCol - 1)) != null) {
+    	if (CurrCol > 1 && document.getElementById(CurrRow + "ResponseInput" + (CurrCol - 1)) != null
+			&& Number(El.getAttribute("data-reprow")) == null) {
     		//If this isn't the 1st response
     		document.getElementById(CurrRow + "ResponseInput" + (CurrCol - 1)).focus();
     	} else if (document.getElementById("Input" + CurrRow) != null) {
@@ -455,6 +494,13 @@
     	}
     	CurrAtt++;
 
+
+    	//So I'm disabling the ability to indent contention headers
+    	if(document.activeElement.getAttribute("data-cont") != 0){
+			return;
+    	}
+
+
     	//document.activeElement.style.marginLeft = "0px";
     	var Amount = 50 * CurrAtt;
     	Amount += "px";
@@ -483,11 +529,14 @@
     }
 
     function CreateContention() {
-    	var El = document.activeElement;
+		var El = document.activeElement;
     	//El = Element
 
     	El.setAttribute("data-incont", 0);
     	var ThisCont = ContNum + 1;
+    	if (CurrAff) {
+    		AffContNum++;
+    	}
 
     	if (DetElNum() < Fields) {
     		//If the field you're cont-ing isn't the last field...
@@ -506,7 +555,13 @@
     			for (var i = ContNum; i >= ThisCont; i--) {
     				var ContMark = document.getElementById("Cont" + i);
     				ContMark.id = "Cont" + (i + 1);
-    				ContMark.innerText = i + 1;
+    				if (i < AffContNum) {
+
+    					ContMark.innerText = i + 1;
+
+    				} else {
+    					ContMark.innerText = i - AffContNum + 1;
+    				}
     				//Change the contention markers
     				SubNum[i + 1] = SubNum[i];
     			}
@@ -537,13 +592,12 @@
 
     	var InNum = document.createElement("h1");
     	InNum.id = "Cont" + ThisCont;
-    	//InNum.innerHTML = "<h1>" + ContNum + "</h1>";
-    	InNum.innerText = ThisCont;
-		/*
-    	InNum.style.position = "absolute";
-    	InNum.style.marginTop = "20px";
-    	InNum.style.marginLeft = "-30px";*/
-    	InNum.className = "ContentionMarker";
+    	if (CurrAff) {
+    		InNum.innerText = ThisCont;
+    	} else {
+    		InNum.innerText = ThisCont - AffContNum;
+    	}
+		InNum.className = "ContentionMarker";
     	El.setAttribute("data-cont", ThisCont);
     	El.style.padding = "15px 0 15px 15px";
     	El.style.marginTop = "25px";
@@ -554,6 +608,7 @@
     	}
     	El.parentElement.insertBefore(InNum, El);
     	ContNum++;
+    	
     }
     function DeleteContention() {
     	var El = document.activeElement;
@@ -847,10 +902,36 @@
     	}
     }
 
+    function NewResponseField() {
+		//Multiple responses to the same point earlier in the flow
+		var CurrEl = document.activeElement;
+		var MainContainer = CurrEl.parentElement;
+		var CurrRepNum = 0;
+		if (CurrEl.getAttribute("data-reprow") == null) {
+			CurrRepNum = 1;
+			CurrEl.setAttribute("data-hasreprow", true);
+		} else {
+			CurrRepNum = Number(CurrEl.getAttribute("data-reprow")) + 1;
+		}
+	
+		if (document.getElementById(MainContainer.id.replace("ResponseContent", "ResponseInput") + CurrRepNum) !=	null) {
+			document.getElementById(MainContainer.id.replace("ResponseContent", "ResponseInput") +	CurrRepNum).focus();
+			return;
+		}
+	
+		var NewInput = document.createElement("input");
+		NewInput.type = "text";
+		NewInput.id = MainContainer.id.replace("ResponseContent", "ResponseInput") + CurrRepNum;//CurrRow +		"ResponseInput" + CurrCol;
+		NewInput.setAttribute("data-isrep", "true");
+		NewInput.setAttribute("data-reprow", CurrRepNum); //Response Row = Reprow
+		MainContainer.appendChild(NewInput);
+		NewInput.focus();
+	}
+	
 	//====================
 	//Working w/ Files
 	//====================
-
+	
     function SaveFile() {
     	var currentState = Windows.UI.ViewManagement.ApplicationView.value;
     	if (currentState === Windows.UI.ViewManagement.ApplicationViewState.snapped &&
@@ -1041,36 +1122,36 @@
     	}
     	return ElNum;
     }
-
+	
 	// Returns the caret (cursor) position of the specified text field.
-    function doGetCaretPosition(oField) {
-
-    	// Initialize
-    	var iCaretPos = 0;
-
-    	// IE Support
-    	if (document.selection) {
-
-    		// Set focus on the element
-    		oField.focus();
-
-    		// To get cursor position, get empty selection range
-    		var oSel = document.selection.createRange();
-
-    		// Move selection start to 0 position
-    		oSel.moveStart('character', -oField.value.length);
-
-    		// The caret position is selection length
-    		iCaretPos = oSel.text.length;
-    	}
-
-    		// Firefox support
-    	else if (oField.selectionStart || oField.selectionStart == '0')
-    		iCaretPos = oField.selectionStart;
-
-    	// Return results
-    	//(new Windows.UI.Popups.MessageDialog(iCaretPos, "Title")).showAsync().done();
-    	return iCaretPos;
-    }
-
+	function doGetCaretPosition(oField) {
+	
+		// Initialize
+		var iCaretPos = 0;
+	
+		// IE Support
+		if (document.selection) {
+	
+			// Set focus on the element
+			oField.focus();
+	
+			// To get cursor position, get empty selection range
+			var oSel = document.selection.createRange();
+	
+			// Move selection start to 0 position
+			oSel.moveStart('character', -oField.value.length);
+	
+			// The caret position is selection length
+			iCaretPos = oSel.text.length;
+		}
+	
+			// Firefox support
+		else if (oField.selectionStart || oField.selectionStart == '0')
+			iCaretPos = oField.selectionStart;
+	
+		// Return results
+		//(new Windows.UI.Popups.MessageDialog(iCaretPos, "Title")).showAsync().done();
+		return iCaretPos;
+	}
+		
 })();
