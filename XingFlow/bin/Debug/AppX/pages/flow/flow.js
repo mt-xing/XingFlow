@@ -1,26 +1,26 @@
 ﻿// For an introduction to the Page Control template, see the following documentation:
 // http://go.microsoft.com/fwlink/?LinkId=232511
 (function () {
-    "use strict";
-
+	"use strict";
+	
 	//Important DOM Variables
-    var Fields = 1;
-    var ContNum = 0;
-    var AffContNum = 0;//The number of contentions in AFF
-    var SubNum = new Array();
-    var RepNum = 0;
-    var SplitLoc = 1; //The number it splits after (the last AFF one)
-    var CurrAff = true;
-
+	var Fields = 1;
+	var ContNum = 0;
+	var AffContNum = 0;//The number of contentions in AFF
+	var SubNum = new Array();
+	var RepNum = 0;
+	var SplitLoc = 1; //The number it splits after (the last AFF one)
+	var CurrAff = true;
+	
 	//Other Useful Crap (and Constants)
-    var Pressed = false;
-    const IndentValue = "99%";
-    const MarginTopValue = "1px";
-
-
-    WinJS.UI.Pages.define("/pages/flow/flow.html", {
-        // This function is called whenever a user navigates to this page. It
-        // populates the page elements with the app's data.
+	var Pressed = false;
+	const IndentValue = "99%";
+	const MarginTopValue = "1px";
+	
+	
+	WinJS.UI.Pages.define("/pages/flow/flow.html", {
+	    // This function is called whenever a user navigates to this page. It
+	    // populates the page elements with the app's data.
         ready: function (element, options) {
         	// TODO: Initialize the page here.
 
@@ -371,50 +371,49 @@
     }
 
     function MoveUp() {
-    	if (document.activeElement.getAttribute("data-isrep") == "true") {
-    		//If this is a response''
-
-    		var El = document.activeElement;
-    		//NewInput.id = CurrRow + "ResponseInput" + CurrCol;
-    		//ResponseContent for Divs
-    		var CurrRow = Number(El.id.split("ResponseInput")[0]);
-    		var CurrCol = Number(El.id.split("ResponseInput")[1]);
-
-    		
-
-    		if (El.getAttribute("data-reprow") != null) {
+		if (document.activeElement.getAttribute("data-isrep") == "true") {
+			//If this is a response''
+	
+			var El = document.activeElement;
+			//NewInput.id = CurrRow + "ResponseInput" + CurrCol;
+			//ResponseContent for Divs
+			var CurrRow = Number(El.id.split("ResponseInput")[0]);
+			var CurrCol = Number(El.id.split("ResponseInput")[1]);
+	
+			
+	
+			if (El.getAttribute("data-reprow") != null) {
 				//If this is one of many responses to the same point
-    			var CurrRepNum = Number(El.getAttribute("data-reprow"));
-    			if (CurrRepNum == 1) {
-    				document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput")).focus();
-    			} else {
-    				document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + (CurrRepNum - 1)).focus();
-    			}
-    			
-    		} else if (document.getElementById((CurrRow - 1) + "ResponseInput" + CurrCol).getAttribute("data-hasreprow") == 'true') {
-    			//If the response on top also has many responses to the same point
-    			var i = 1;
-    			while (true) {
-    				if (document.getElementById((CurrRow - 1) + "ResponseInput" + CurrCol + i) != null) {
-    					i++;
-    				} else {
-    					document.getElementById((CurrRow - 1) + "ResponseInput" + CurrCol + (i - 1)).focus();
-    					break;
-    				}
-    			}
-
-
-    		} else if (document.getElementById((CurrRow - 1) + "ResponseInput" + CurrCol) != null) {
+				var CurrRepNum = Number(El.getAttribute("data-reprow"));
+				if (CurrRepNum == 1) {
+					document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput")).focus();
+				} else {
+					document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + (CurrRepNum - 1)).focus();
+				}
+				
+			} else if (document.getElementById((CurrRow - 1) + "ResponseInput" + CurrCol + "1") != null) {
+				//If the response on top also has many responses to the same point
+				var i = 1;
+				while (true) {
+					if (document.getElementById((CurrRow - 1) + "ResponseInput" + CurrCol + i) != null) {
+						i++;
+					} else {
+						document.getElementById((CurrRow - 1) + "ResponseInput" + CurrCol + (i - 1)).focus();
+						break;
+					}
+				}
+	
+	
+			} else if (document.getElementById((CurrRow - 1) + "ResponseInput" + CurrCol) != null) {
 				//If this is the top or only response to a point
-    			document.getElementById((CurrRow - 1) + "ResponseInput" + CurrCol).focus();
-    			
-    		}
-
-    		return;
-    	}
-    	var ElNum = DetElNum();
-    	document.getElementById("Input" + (ElNum - 1)).focus();
-    }
+				document.getElementById((CurrRow - 1) + "ResponseInput" + CurrCol).focus();
+			}
+	
+			return;
+		}
+		var ElNum = DetElNum();
+		document.getElementById("Input" + (ElNum - 1)).focus();
+	}
     function MoveDown() {
     	if (document.activeElement.getAttribute("data-isrep") == "true") {
     		//If this is a response
@@ -425,7 +424,19 @@
     		var CurrRow = Number(El.id.split("ResponseInput")[0]);
     		var CurrCol = Number(El.id.split("ResponseInput")[1]);
 
-    		if (document.getElementById((CurrRow + 1) + "ResponseInput" + CurrCol) != null) {
+			if (El.getAttribute("data-reprow") != null) {
+				//If this is one of many responses to the same point
+				var CurrRepNum = Number(El.getAttribute("data-reprow"));
+				if (document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + (CurrRepNum + 1)) != null) {
+					document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + (CurrRepNum + 1)).focus();
+					return;
+				}
+				
+			}
+
+    		if(document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") +	(CurrRepNum + 1)) != null){
+    			document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + (CurrRepNum + 1)).focus();
+    		} else if (document.getElementById((CurrRow + 1) + "ResponseInput" + CurrCol) != null) {
     			document.getElementById((CurrRow + 1) + "ResponseInput" + CurrCol).focus();
     		} else if (document.getElementById("Input" + (CurrRow + 1)) != null) {
     			document.getElementById("Input" + (CurrRow + 1)).focus();
@@ -904,35 +915,35 @@
     }
 
     function NewResponseField() {
-    	//Multiple responses to the same point earlier in the flow
-    	var CurrEl = document.activeElement;
-    	var MainContainer = CurrEl.parentElement;
-    	var CurrRepNum = 0;
-    	if (CurrEl.getAttribute("data-reprow") == null) {
-    		CurrRepNum = 1;
-    		CurrEl.setAttribute("data-hasreprow", true);
-    	} else {
-    		CurrRepNum = Number(CurrEl.getAttribute("data-reprow")) + 1;
-    	}
-
-    	if (document.getElementById(MainContainer.id.replace("ResponseContent", "ResponseInput") + CurrRepNum) != null) {
-    		document.getElementById(MainContainer.id.replace("ResponseContent", "ResponseInput") + CurrRepNum).focus();
-    		return;
-    	}
-
-    	var NewInput = document.createElement("input");
-    	NewInput.type = "text";
-    	NewInput.id = MainContainer.id.replace("ResponseContent", "ResponseInput") + CurrRepNum;//CurrRow + "ResponseInput" + CurrCol;
-    	NewInput.setAttribute("data-isrep", "true");
-    	NewInput.setAttribute("data-reprow", CurrRepNum); //Response Row = Reprow
-    	MainContainer.appendChild(NewInput);
-    	NewInput.focus();
+		//Multiple responses to the same point earlier in the flow
+		var CurrEl = document.activeElement;
+		var MainContainer = CurrEl.parentElement;
+		var CurrRepNum = 0;
+		if (CurrEl.getAttribute("data-reprow") == null) {
+			CurrRepNum = 1;
+			CurrEl.setAttribute("data-hasreprow", true);
+		} else {
+			CurrRepNum = Number(CurrEl.getAttribute("data-reprow")) + 1;
+		}
+	
+		if (document.getElementById(MainContainer.id.replace("ResponseContent", "ResponseInput") + CurrRepNum) !=	null) {
+			document.getElementById(MainContainer.id.replace("ResponseContent", "ResponseInput") +	CurrRepNum).focus();
+			return;
+		}
+	
+		var NewInput = document.createElement("input");
+		NewInput.type = "text";
+		NewInput.id = MainContainer.id.replace("ResponseContent", "ResponseInput") + CurrRepNum;//CurrRow +		"ResponseInput" + CurrCol;
+		NewInput.setAttribute("data-isrep", "true");
+		NewInput.setAttribute("data-reprow", CurrRepNum); //Response Row = Reprow
+		MainContainer.appendChild(NewInput);
+		NewInput.focus();
 	}
-
+	
 	//====================
 	//Working w/ Files
 	//====================
-
+	
     function SaveFile() {
     	var currentState = Windows.UI.ViewManagement.ApplicationView.value;
     	if (currentState === Windows.UI.ViewManagement.ApplicationViewState.snapped &&
@@ -1123,36 +1134,36 @@
     	}
     	return ElNum;
     }
-
+	
 	// Returns the caret (cursor) position of the specified text field.
-    function doGetCaretPosition(oField) {
-
-    	// Initialize
-    	var iCaretPos = 0;
-
-    	// IE Support
-    	if (document.selection) {
-
-    		// Set focus on the element
-    		oField.focus();
-
-    		// To get cursor position, get empty selection range
-    		var oSel = document.selection.createRange();
-
-    		// Move selection start to 0 position
-    		oSel.moveStart('character', -oField.value.length);
-
-    		// The caret position is selection length
-    		iCaretPos = oSel.text.length;
-    	}
-
-    		// Firefox support
-    	else if (oField.selectionStart || oField.selectionStart == '0')
-    		iCaretPos = oField.selectionStart;
-
-    	// Return results
-    	//(new Windows.UI.Popups.MessageDialog(iCaretPos, "Title")).showAsync().done();
-    	return iCaretPos;
-    }
-
+	function doGetCaretPosition(oField) {
+	
+		// Initialize
+		var iCaretPos = 0;
+	
+		// IE Support
+		if (document.selection) {
+	
+			// Set focus on the element
+			oField.focus();
+	
+			// To get cursor position, get empty selection range
+			var oSel = document.selection.createRange();
+	
+			// Move selection start to 0 position
+			oSel.moveStart('character', -oField.value.length);
+	
+			// The caret position is selection length
+			iCaretPos = oSel.text.length;
+		}
+	
+			// Firefox support
+		else if (oField.selectionStart || oField.selectionStart == '0')
+			iCaretPos = oField.selectionStart;
+	
+		// Return results
+		//(new Windows.UI.Popups.MessageDialog(iCaretPos, "Title")).showAsync().done();
+		return iCaretPos;
+	}
+		
 })();

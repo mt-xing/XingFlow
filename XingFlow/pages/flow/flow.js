@@ -386,12 +386,12 @@
 				//If this is one of many responses to the same point
 				var CurrRepNum = Number(El.getAttribute("data-reprow"));
 				if (CurrRepNum == 1) {
-					document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput")).focus  ();
+					document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput")).focus();
 				} else {
-					document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") +	(CurrRepNum - 1)).focus();
+					document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + (CurrRepNum - 1)).focus();
 				}
 				
-			} else if (document.getElementById((CurrRow - 1) + "ResponseInput" + CurrCol).getAttribute("data-   hasreprow") == 'true' && document.getElementById((CurrRow - 1) + "ResponseInput" + CurrCol) != null)    {
+			} else if (document.getElementById((CurrRow - 1) + "ResponseInput" + CurrCol + "1") != null) {
 				//If the response on top also has many responses to the same point
 				var i = 1;
 				while (true) {
@@ -424,7 +424,19 @@
     		var CurrRow = Number(El.id.split("ResponseInput")[0]);
     		var CurrCol = Number(El.id.split("ResponseInput")[1]);
 
-    		if (document.getElementById((CurrRow + 1) + "ResponseInput" + CurrCol) != null) {
+			if (El.getAttribute("data-reprow") != null) {
+				//If this is one of many responses to the same point
+				var CurrRepNum = Number(El.getAttribute("data-reprow"));
+				if (document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + (CurrRepNum + 1)) != null) {
+					document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + (CurrRepNum + 1)).focus();
+					return;
+				}
+				
+			}
+
+    		if(document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") +	(CurrRepNum + 1)) != null){
+    			document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + (CurrRepNum + 1)).focus();
+    		} else if (document.getElementById((CurrRow + 1) + "ResponseInput" + CurrCol) != null) {
     			document.getElementById((CurrRow + 1) + "ResponseInput" + CurrCol).focus();
     		} else if (document.getElementById("Input" + (CurrRow + 1)) != null) {
     			document.getElementById("Input" + (CurrRow + 1)).focus();
