@@ -430,13 +430,20 @@
 				if (document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + (CurrRepNum + 1)) != null) {
 					document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + (CurrRepNum + 1)).focus();
 					return;
+				} else {
+					//If this is the last response of many responses
+					CurrCol = Number(El.parentElement.id.split("ResponseContent")[1]);
 				}
 				
+			} else if (document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + "1") != null) {
+				document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + "1").focus();
+				return;
 			}
 
-    		if(document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") +	(CurrRepNum + 1)) != null){
+    		/*if(document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") +	(CurrRepNum + 1)) != null){
     			document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + (CurrRepNum + 1)).focus();
-    		} else if (document.getElementById((CurrRow + 1) + "ResponseInput" + CurrCol) != null) {
+    		} else*/
+			if (document.getElementById((CurrRow + 1) + "ResponseInput" + CurrCol) != null) {
     			document.getElementById((CurrRow + 1) + "ResponseInput" + CurrCol).focus();
     		} else if (document.getElementById("Input" + (CurrRow + 1)) != null) {
     			document.getElementById("Input" + (CurrRow + 1)).focus();
