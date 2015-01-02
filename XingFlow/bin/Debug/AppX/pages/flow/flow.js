@@ -32,10 +32,10 @@
         		} else if (e.keyCode == WinJS.Utilities.Key.backspace && TextField.tagName == "INPUT" && TextField.getAttribute("data-source") == "true" && doGetCaretPosition(TextField) == 0) {
         			e.preventDefault();
         			DeleteSource();
-        		} else if (e.keyCode == WinJS.Utilities.Key.backspace && TextField.tagName == "INPUT" && TextField.getAttribute("data-isrep") == "true" && doGetCaretPosition(TextField) == 0) {
+        		} /*else if (e.keyCode == WinJS.Utilities.Key.backspace && TextField.tagName == "INPUT" && TextField.getAttribute("data-isrep") == "true" && doGetCaretPosition(TextField) == 0) {
         			e.preventDefault();
         			DeleteResponse();
-        		} else if (e.keyCode == WinJS.Utilities.Key.backspace && TextField.tagName == "INPUT" && doGetCaretPosition(TextField) == 0) {
+        		}*/ else if (e.keyCode == WinJS.Utilities.Key.backspace && TextField.tagName == "INPUT" && doGetCaretPosition(TextField) == 0) {
         			DeleteField();
         		} else if (e.keyCode == WinJS.Utilities.Key.enter) {
         			NewField();
@@ -290,6 +290,11 @@
 
     }
     function DeleteField() {
+
+    	if (document.activeElement.getAttribute("data-isrep") == "true") {
+    		DelResponseField();
+    		return;
+    	}
 
     	if (Number(document.activeElement.getAttribute("data-indent")) != 0) {
     		//var IndentNum = Number(document.activeElement.getAttribute("data-indent"));
@@ -932,10 +937,25 @@
 		} else {
 			CurrRepNum = Number(CurrEl.getAttribute("data-reprow")) + 1;
 		}
-	
-		if (document.getElementById(MainContainer.id.replace("ResponseContent", "ResponseInput") + CurrRepNum) !=	null) {
-			document.getElementById(MainContainer.id.replace("ResponseContent", "ResponseInput") +	CurrRepNum).focus();
-			return;
+		
+		var i;
+
+		if (document.getElementById(MainContainer.id.replace("ResponseContent", "ResponseInput") + CurrRepNum) != null) {
+			//If this isn't the newest response
+			//document.getElementById(MainContainer.id.replace("ResponseContent", "ResponseInput") +	CurrRepNum).focus();
+			//return;
+			i = CurrRepNum;
+			while (document.getElementById(MainContainer.id.replace("ResponseContent", "ResponseInput") + i) != null) {
+				//We need to loop down from the highest number, so we use a while loop to figure out what that number is
+				i++;
+			}
+			i--;
+			for (var j = i; j >= CurrRepNum; j--) {
+				//We then use a for loop to loop through existing fields and update their ids
+				document.getElementById(MainContainer.id.replace("ResponseContent", "ResponseInput") + j).setAttribute("data-reprow", (j + 1));
+				document.getElementById(MainContainer.id.replace("ResponseContent", "ResponseInput") + j).id = MainContainer.id.replace("ResponseContent", "ResponseInput") + (j + 1);
+			}
+
 		}
 	
 		var NewInput = document.createElement("input");
@@ -943,9 +963,54 @@
 		NewInput.id = MainContainer.id.replace("ResponseContent", "ResponseInput") + CurrRepNum;//CurrRow +		"ResponseInput" + CurrCol;
 		NewInput.setAttribute("data-isrep", "true");
 		NewInput.setAttribute("data-reprow", CurrRepNum); //Response Row = Reprow
-		MainContainer.appendChild(NewInput);
+		if (i == null) {
+			MainContainer.appendChild(NewInput);
+		} else {
+			MainContainer.insertBefore(NewInput, document.getElementById(MainContainer.id.replace("ResponseContent", "ResponseInput") + (CurrRepNum + 1)));
+		}
 		NewInput.focus();
-	}
+    }
+    function DelResponseField() {
+    	var El = document.activeElement;
+    	if (El.getAttribute("data-reprow") == null && El.getAttribute("data-hasreprow") != "true") {
+			//If this is the only response to a field
+    		DeleteResponse();
+    		return;
+    	}
+    	//If this isn't the only response to a field
+    	var CurrElNum = Number(El.getAttribute("data-reprow"));
+    	if (CurrElNum == null) {
+    		CurrElNum = 0;
+    	}
+
+    	
+
+    	var i = CurrElNum + 1;
+    	while (document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + i) != null) {
+    		if (i == 1) {
+    			document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + i).setAttribute("data-reprow", null);
+    			document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + i).setAttribute("data-hasreprow", true);
+    			document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + i).id = El.parentElement.id.replace("ResponseContent", "ResponseInput");
+    		} else {
+    			document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + i).setAttribute("data-reprow", (i - 1));
+    			document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + i).id = El.parentElement.id.replace("ResponseContent", "ResponseInput") + (i - 1);
+    		}
+    		
+    		i++;
+    	}
+
+
+    	
+    	if (CurrElNum == 1) {
+    		document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput")).focus();
+    	} else {
+    		document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + (CurrElNum - 1)).focus();
+    	}
+
+
+    	El.parentNode.removeChild(El);
+    	
+    }
 	
 	//====================
 	//Working w/ Files
