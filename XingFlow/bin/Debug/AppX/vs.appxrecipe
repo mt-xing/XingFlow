@@ -90,11 +90,11 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\pages\flow\flow.js">
       <PackagePath>pages\flow\flow.js</PackagePath>
-      <Modified>2015-01-03T22:27:31.844</Modified>
+      <Modified>2015-01-04T03:40:25.933</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\pages\home\home.js">
       <PackagePath>pages\home\home.js</PackagePath>
-      <Modified>2015-01-03T22:02:07.956</Modified>
+      <Modified>2015-01-04T03:17:47.765</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\pages\round\round.js">
       <PackagePath>pages\round\round.js</PackagePath>
@@ -110,7 +110,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\pages\home\home.html">
       <PackagePath>pages\home\home.html</PackagePath>
-      <Modified>2015-01-03T21:57:03.232</Modified>
+      <Modified>2015-01-04T03:12:52.755</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\default.html">
       <PackagePath>default.html</PackagePath>

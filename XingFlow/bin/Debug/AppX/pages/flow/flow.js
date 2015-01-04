@@ -1072,10 +1072,7 @@
 	//====================
 	
     function SaveFile() {
-    	if (IsPre) {
-			//TODO: Save all the stuff and then return
-    		return;
-    	}
+    	
     	var currentState = Windows.UI.ViewManagement.ApplicationView.value;
     	if (currentState === Windows.UI.ViewManagement.ApplicationViewState.snapped &&
 			!Windows.UI.ViewManagement.ApplicationView.tryUnsnap()) {
@@ -1089,7 +1086,7 @@
     	var SavingContent = Fields + "\n" + ContNum + "\n" + RepNum + "\n" + SubNum + "\n" + SplitLoc + "\n";
     	SavingContent += document.getElementById("MainContent").innerHTML.replace(/(\r\n|\n|\r)/gm, "") + "\n";
 
-    	var NumRep = 0;
+    	//var NumRep = 0;
 
     	for (var i = 1; i <= Fields; i++) {
     		SavingContent += document.getElementById("Input" + i).value + "\n";
@@ -1097,25 +1094,51 @@
 
     		if (document.getElementById("Input" + i).getAttribute("data-source") == "true") {
     			SavingContent += document.getElementById("Source-Input" + i).value + "\n";
-    			//document.getElementById("Source-Input" + i).value = SplitContent[k];
     		}
 
     		for (var j = 1; j <= Number(document.getElementById("Input" + i).getAttribute("data-rep")) ; j++) {
     			var El = document.getElementById("Input" + i);
     			var CurrRow = Number(El.id.substring(5));
 
-    			//NewInput.id = CurrRow + "ResponseInput" + CurrCol;
     			SavingContent += document.getElementById(CurrRow + "ResponseInput" + j).value + "\n";
 
     			if (document.getElementById(CurrRow + "ResponseInput" + j).getAttribute("data-source") == "true") {
     				SavingContent += document.getElementById("Source-" + CurrRow + "ResponseInput" + j).value + "\n";
-    				//document.getElementById("Source-Input" + i).value = SplitContent[k];
     			}
+				//TODO: Store Multiple Responses
     		}
 
-    		//We also need to track sources.
     	}
 
+    	if (IsPre) {
+    		//TODO: Save all the stuff and then return
+    		var localSettings = Windows.Storage.ApplicationData.current.localSettings;
+    		var localFolder = Windows.Storage.ApplicationData.current.localFolder;
+
+    		if (CurrAff) {
+    			localFolder.createFileAsync("AffPre.txt", Windows.Storage.CreationCollisionOption.replaceExisting).then(function (sampleFile) {
+    				//var formatter = new Windows.Globalization.DateTimeFormatting.DateTimeFormatter("longtime");
+    				//var timestamp = formatter.format(new Date());
+
+    				return Windows.Storage.FileIO.writeTextAsync(sampleFile, SavingContent);
+    			}).done(function () {
+    				//Finished saving settings
+    			});
+    		} else {
+    			localFolder.createFileAsync("NegPre.txt", Windows.Storage.CreationCollisionOption.replaceExisting).then(function (sampleFile) {
+    				//var formatter = new Windows.Globalization.DateTimeFormatting.DateTimeFormatter("longtime");
+    				//var timestamp = formatter.format(new Date());
+
+    				return Windows.Storage.FileIO.writeTextAsync(sampleFile, SavingContent);
+    			}).done(function () {
+    				//Finished saving settings
+    			});
+    		}
+    			
+
+
+    		return;
+    	}
 
     	// Create the picker object and set options
     	var savePicker = new Windows.Storage.Pickers.FileSavePicker();
