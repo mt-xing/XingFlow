@@ -16,3 +16,9 @@ pages\flow\flow.js
 pages\home\home.css
 pages\home\home.html
 pages\home\home.js
+pages\round\round.css
+pages\round\round.html
+pages\round\round.js
+pages\settings\settings.css
+pages\settings\settings.html
+pages\settings\settings.js

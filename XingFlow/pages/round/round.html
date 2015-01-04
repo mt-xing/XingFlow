@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>round</title>
+
+    <link href="round.css" rel="stylesheet" />
+    <script src="round.js"></script>
+</head>
+<body>
+	<div class="round fragment">
+		<header class="page-header" aria-label="Header content" role="banner">
+			<button class="back-button" data-win-control="WinJS.UI.BackButton"></button>
+			<h1 class="titlearea win-type-ellipsis">
+				<span class="pagetitle">New Round</span>
+			</h1>
+		</header>
+		<section class="page-section" aria-label="Main content" role="main">
+
+			<div style="display:block;">
+				<h2>Your Side</h2>
+
+				<label id="LASel" class="RL">
+					AFF <input id="ASel" type="radio" />
+				</label>
+				<label id="LNSel" class="RR">
+					NEG <input id="NSel" type="radio" />
+				</label>
+
+
+				<h2>Your Order</h2>
+
+				<label id="L1Sel" class="RL">
+					1st <input id="1Sel" type="radio" />
+				</label>
+				<label id="L2Sel" class="RR">
+					2nd <input id="2Sel" type="radio" />
+				</label>
+
+				<button id="Continue" style="display:none;">Continue</button>
+			</div>
+
+
+			
+
+		</section>
+	</div>
+</body>
+</html>

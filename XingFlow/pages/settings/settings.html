@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>settings</title>
+
+    <link href="settings.css" rel="stylesheet" />
+    <script src="settings.js"></script>
+</head>
+<body>
+    <div class="settings fragment">
+        <header class="page-header" aria-label="Header content" role="banner">
+            <button class="back-button" data-win-control="WinJS.UI.BackButton"></button>
+            <h1 class="titlearea win-type-ellipsis">
+                <span class="pagetitle">Settings</span>
+            </h1>
+        </header>
+        <section class="page-section" aria-label="Main content" role="main">
+			<div style="display:block;">
+				<h2>Set Up Pre-Flows</h2>
+				<p>Set up flows that are automatically loaded in for you when you select <em>New Round</em>.</p>
+				<p>
+					<button id="AFlow">Affirmative</button>
+					<button id="NFlow">Negative</button>
+				</p>
+
+				<h2>Speaker Position</h2>
+				<p>Toggle between 1<sup>st</sup> Speaker Mode and 2<sup>nd</sup> Speaker Mode. Does not affect blank rounds.</p>
+				<div data-win-control="WinJS.UI.ToggleSwitch" data-win-options="{labelOff:'1<sup>st</sup> Speaker', labelOn:'2<sup>nd</sup> Speaker'}"></div>
+
+				<strong>Currently, this is unimplemented. Click all you want - it doesn't do anything.</strong>
+
+			</div>
+        </section>
+    </div>
+</body>
+</html>

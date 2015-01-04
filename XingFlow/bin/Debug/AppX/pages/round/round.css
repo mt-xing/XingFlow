@@ -1,0 +1,65 @@
+﻿.round section {
+	margin: auto 120px;
+}
+
+.phone .round .page-section {
+	margin: auto 24px;
+}
+
+.phone .round .page-header .titlearea {
+	-ms-grid-column: 1;
+	margin-top: 37px;
+	margin-left: 24px;
+	font-size: 28pt;
+	width: calc(100vw - 20px);
+}
+
+.phone .round .back-button {
+	display: none;
+}
+
+.fragment {
+	-ms-grid-columns: 1fr;
+	-ms-grid-rows: 128px 1fr;
+	display: -ms-grid;
+	height: 100%;
+	width: 100%;
+}
+
+	.fragment section[role=main] {
+		-ms-grid-row: 2;
+		height: 100%;
+	}
+
+
+/*
+	My New Stuff
+*/
+
+
+.page-section label {
+	display: inline-block;
+	padding: 50px 100px 50px 100px;
+	cursor: pointer;
+	border-color: black;
+	border-width: 5px;
+	border-style: solid;
+	margin:30px 0 15px 0;
+	position:relative;
+	font-size:200%;
+}
+input[type="radio"]{
+	display:none;
+}
+
+.RL {
+}
+	/*border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+}
+.RR {
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;*/
+	.RR{
+	left: -10px;
+}

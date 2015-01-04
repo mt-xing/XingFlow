@@ -20,7 +20,7 @@
     <AppXManifest Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\bin\Debug\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2014-12-14T20:57:17.369</Modified>
+      <Modified>2015-01-03T21:55:21.850</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
@@ -35,6 +35,14 @@
     <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\pages\home\home.css">
       <PackagePath>pages\home\home.css</PackagePath>
       <Modified>2014-12-14T21:03:54.661</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\pages\round\round.css">
+      <PackagePath>pages\round\round.css</PackagePath>
+      <Modified>2015-01-03T18:57:29.668</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\pages\settings\settings.css">
+      <PackagePath>pages\settings\settings.css</PackagePath>
+      <Modified>2015-01-03T21:54:51.391</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\images\Blank Library.png">
       <PackagePath>images\Blank Library.png</PackagePath>
@@ -74,7 +82,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\js\default.js">
       <PackagePath>js\default.js</PackagePath>
-      <Modified>2014-12-14T15:53:07.671</Modified>
+      <Modified>2015-01-03T18:39:18.300</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\js\navigator.js">
       <PackagePath>js\navigator.js</PackagePath>
@@ -82,11 +90,19 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\pages\flow\flow.js">
       <PackagePath>pages\flow\flow.js</PackagePath>
-      <Modified>2015-01-02T03:26:54.107</Modified>
+      <Modified>2015-01-03T22:27:31.844</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\pages\home\home.js">
       <PackagePath>pages\home\home.js</PackagePath>
-      <Modified>2014-12-14T16:42:58.760</Modified>
+      <Modified>2015-01-03T22:02:07.956</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\pages\round\round.js">
+      <PackagePath>pages\round\round.js</PackagePath>
+      <Modified>2015-01-03T22:28:05.837</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\pages\settings\settings.js">
+      <PackagePath>pages\settings\settings.js</PackagePath>
+      <Modified>2015-01-03T22:27:59.047</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\pages\flow\flow.html">
       <PackagePath>pages\flow\flow.html</PackagePath>
@@ -94,15 +110,23 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\pages\home\home.html">
       <PackagePath>pages\home\home.html</PackagePath>
-      <Modified>2014-12-15T02:17:08.516</Modified>
+      <Modified>2015-01-03T21:57:03.232</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\default.html">
       <PackagePath>default.html</PackagePath>
       <Modified>2014-12-14T15:52:36.804</Modified>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\pages\round\round.html">
+      <PackagePath>pages\round\round.html</PackagePath>
+      <Modified>2015-01-03T19:34:25.803</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\pages\settings\settings.html">
+      <PackagePath>pages\settings\settings.html</PackagePath>
+      <Modified>2015-01-03T22:22:10.550</Modified>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\mt_xi_000\Documents\Projects\Programs\Visual Studio 2013\Projects\XingFlow\XingFlow\bin\Debug\ReverseMap\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2014-12-14T20:57:17.240</Modified>
+      <Modified>2015-01-03T21:55:21.652</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

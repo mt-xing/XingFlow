@@ -12,7 +12,17 @@
         linkClickEventHandler: function (eventInfo) {
         	eventInfo.preventDefault();
         	var link = eventInfo.target;
-        	WinJS.Navigation.navigate(link.href);
+        	if (link.className != "ALink") {
+        		link = link.parentElement;
+        	}
+        	WinJS.UI.Animation.pointerDown(link).done(
+				function completed() {
+					WinJS.UI.Animation.pointerUp(link).done(
+						function completed() {
+							WinJS.Navigation.navigate(link.href, { isReal: false });
+						});
+				});
+        	
         }
     });
 })();

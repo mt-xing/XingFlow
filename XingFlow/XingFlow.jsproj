@@ -73,6 +73,12 @@
     <Content Include="pages\home\home.html" />
     <Content Include="pages\home\home.js" />
     <Content Include="default.html" />
+    <Content Include="pages\round\round.css" />
+    <Content Include="pages\round\round.html" />
+    <Content Include="pages\round\round.js" />
+    <Content Include="pages\settings\settings.css" />
+    <Content Include="pages\settings\settings.html" />
+    <Content Include="pages\settings\settings.js" />
     <None Include="XingFlow_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

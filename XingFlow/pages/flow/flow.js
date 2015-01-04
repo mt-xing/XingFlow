@@ -16,14 +16,26 @@
 	var Pressed = false;
 	const IndentValue = "99%";
 	const MarginTopValue = "1px";
-	
+	var IsPre = false;
 	
 	WinJS.UI.Pages.define("/pages/flow/flow.html", {
 	    // This function is called whenever a user navigates to this page. It
 	    // populates the page elements with the app's data.
         ready: function (element, options) {
         	// TODO: Initialize the page here.
-
+        	if (options.isReal) {
+        		if (!options.isPre) {
+        			if (!options.isAff) {
+        				ChangePage();
+        			}
+        		} else {
+        			//If this is a preflow
+        			if (!options.isAff) {
+        				ChangePage();
+        			}
+        			IsPre = true;
+        		}
+        	}
 
         	document.addEventListener('keydown', function (e) {
         		var TextField = document.activeElement;
@@ -112,7 +124,10 @@
         }
     });
 
-    function ChangePage() {
+	function ChangePage() {
+		if (IsPre) {
+			return;
+		}
     	var El = document.activeElement;
     	var TitleField = document.getElementById("AffNeg");
     	if (CurrAff) {
@@ -151,6 +166,7 @@
     				document.getElementById(CurrRow + "ResponseContent" + j).style.display = "block";
     			}
     		}
+    		document.getElementById("Input" + (SplitLoc + 1)).focus();
     	} else {
     		CurrAff = true;
     		TitleField.innerText = "Affirmative";
@@ -173,6 +189,7 @@
     				document.getElementById(CurrRow + "ResponseContent" + j).style.display = "none";
     			}
     		}
+    		document.getElementById("Input1").focus();
     	}
     }
 
@@ -470,35 +487,53 @@
     	document.getElementById(El.id.substr(7)).focus();
     }
     function MoveLeft() {
-    	var El = document.activeElement;
-    	//NewInput.id = CurrRow + "ResponseInput" + CurrCol;
-    	//ResponseContent for Divs
-    	var CurrRow = Number(El.id.split("ResponseInput")[0]);
-    	var CurrCol = Number(El.id.split("ResponseInput")[1]);
-    	//var SourceEl = document.getElementById("Input" + CurrRow);
-
-    	if (CurrCol > 1 && document.getElementById(CurrRow + "ResponseInput" + (CurrCol - 1)) != null
-			&& Number(El.getAttribute("data-reprow")) == null) {
-    		//If this isn't the 1st response
-    		document.getElementById(CurrRow + "ResponseInput" + (CurrCol - 1)).focus();
-    	} else if (document.getElementById("Input" + CurrRow) != null) {
-    		//If this is...
-    		document.getElementById("Input" + CurrRow).focus();
+    	if (IsPre) {
+    		return;
     	}
-    }
+		var El = document.activeElement;
+		//NewInput.id = CurrRow + "ResponseInput" + CurrCol;
+		//ResponseContent for Divs
+		var CurrRow = Number(El.parentElement.id.split("ResponseContent")[0]);
+		var CurrCol = Number(El.parentElement.id.split("ResponseContent")[1]);
+		//var SourceEl = document.getElementById("Input" + CurrRow);
+	
+		if (El.getAttribute("data-reprow") != null) {
+			if (document.getElementById(CurrRow + "ResponseInput" + (CurrCol - 1) + El.getAttribute("data-reprow")) != null) {
+				document.getElementById(CurrRow + "ResponseInput" + (CurrCol - 1) + El.getAttribute("data-reprow")).focus();
+				return;
+			}
+		}
+		if (CurrCol > 1 && document.getElementById(CurrRow + "ResponseInput" + (CurrCol - 1)) != null) {
+			//If this isn't the 1st response
+			document.getElementById(CurrRow + "ResponseInput" + (CurrCol - 1)).focus();
+		} else if (document.getElementById("Input" + CurrRow) != null) {
+			//If this is...
+			document.getElementById("Input" + CurrRow).focus();
+		}
+	}
     function MoveRight() {
+    	if (IsPre) {
+    		return;
+    	}
     	var El = document.activeElement;
     	//NewInput.id = CurrRow + "ResponseInput" + CurrCol;
     	//ResponseContent for Divs
 
     	if (El.getAttribute("data-isrep") == "true") {
-    		var CurrRow = Number(El.id.split("ResponseInput")[0]);
-    		var CurrCol = Number(El.id.split("ResponseInput")[1]);
+    		var CurrRow = Number(El.parentElement.id.split("ResponseContent")[0]);
+    		var CurrCol = Number(El.parentElement.id.split("ResponseContent")[1]);
     	} else {
     		var CurrCol = 0;
     		var CurrRow = Number(El.id.replace("Input", ""));
     	}
     	//var SourceEl = document.getElementById("Input" + CurrRow);
+
+    	if (El.getAttribute("data-reprow") != null) {
+    		if (document.getElementById(CurrRow + "ResponseInput" + (CurrCol + 1) + El.getAttribute("data-reprow")) != null) {
+    			document.getElementById(CurrRow + "ResponseInput" + (CurrCol + 1) + El.getAttribute("data-reprow")).focus();
+    			return;
+    		}
+    	}
 
     	if (document.getElementById(CurrRow + "ResponseInput" + (CurrCol + 1)) != null) {
     		//If the next response exists...
@@ -861,12 +896,23 @@
     }
 
     function CreateResponse() {
+    	if (IsPre) {
+    		return;
+    	}
     	var El = document.activeElement;
-    	if (El.getAttribute("data-isrep") == "true") {
+    	if (El.getAttribute("data-isrep") == "true" && El.getAttribute("data-hasreprow") != "true" && El.getAttribute("data-reprow") == null) {
     		var StringTemp = El.id.split("ResponseInput");
     		var CurrCol = Number(StringTemp[1]);
     		var CurrRow = Number(StringTemp[0]);
-    	} else {
+    	} else if (El.getAttribute("data-isrep") == "true") {
+    		var StringTemp = El.id.split("ResponseInput");
+    		var CurrRow = Number(StringTemp[0]);
+    		if (El.getAttribute("data-reprow") == null) {
+    			var CurrCol = Number(StringTemp[1]);
+    		} else {
+    			var CurrCol = El.parentElement.id.split("ResponseContent")[1];
+    		}
+    	} else{
     		var CurrCol = 0;
     		var CurrRow = Number(El.id.replace("Input", ""));
     	}
@@ -910,6 +956,9 @@
     	document.getElementById(CurrRow + "ResponseInput" + CurrCol).focus();
     }
     function DeleteResponse() {
+    	if (IsPre) {
+    		return;
+    	}
     	var El = document.activeElement;
     	var CurrRow = Number(El.id.split("ResponseInput")[0]);
     	var CurrCol = Number(El.id.split("ResponseInput")[1]);
@@ -927,6 +976,9 @@
     }
 
     function NewResponseField() {
+    	if (IsPre) {
+    		return;
+    	}
 		//Multiple responses to the same point earlier in the flow
 		var CurrEl = document.activeElement;
 		var MainContainer = CurrEl.parentElement;
@@ -971,6 +1023,9 @@
 		NewInput.focus();
     }
     function DelResponseField() {
+    	if (IsPre) {
+    		return;
+    	}
     	var El = document.activeElement;
     	if (El.getAttribute("data-reprow") == null && El.getAttribute("data-hasreprow") != "true") {
 			//If this is the only response to a field
@@ -1017,6 +1072,10 @@
 	//====================
 	
     function SaveFile() {
+    	if (IsPre) {
+			//TODO: Save all the stuff and then return
+    		return;
+    	}
     	var currentState = Windows.UI.ViewManagement.ApplicationView.value;
     	if (currentState === Windows.UI.ViewManagement.ApplicationViewState.snapped &&
 			!Windows.UI.ViewManagement.ApplicationView.tryUnsnap()) {
@@ -1090,7 +1149,9 @@
 
     }
     function OpenFile() {
-
+    	if (IsPre) {
+    		return;
+    	}
     	var SavingContent = "";
 
     	// Verify that we are currently not snapped, or that we can unsnap to open the picker
