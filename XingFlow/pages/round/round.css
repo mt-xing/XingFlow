@@ -39,7 +39,7 @@
 
 .page-section label {
 	display: inline-block;
-	padding: 50px 100px 50px 100px;
+	padding: 50px 75px 50px 75px;
 	cursor: pointer;
 	border-color: black;
 	border-width: 5px;
@@ -53,13 +53,8 @@ input[type="radio"]{
 }
 
 .RL {
+	
 }
-	/*border-top-left-radius: 10px;
-	border-bottom-left-radius: 10px;
-}
-.RR {
-	border-top-right-radius: 10px;
-	border-bottom-right-radius: 10px;*/
-	.RR{
+.RR{
 	left: -10px;
 }

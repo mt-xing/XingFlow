@@ -1116,7 +1116,7 @@
     		var localFolder = Windows.Storage.ApplicationData.current.localFolder;
 
     		if (CurrAff) {
-    			localFolder.createFileAsync("AffPre.txt", Windows.Storage.CreationCollisionOption.replaceExisting).then(function (sampleFile) {
+    			localFolder.createFileAsync("AffPre.xflow", Windows.Storage.CreationCollisionOption.replaceExisting).then(function (sampleFile) {
     				//var formatter = new Windows.Globalization.DateTimeFormatting.DateTimeFormatter("longtime");
     				//var timestamp = formatter.format(new Date());
 
@@ -1125,7 +1125,7 @@
     				//Finished saving settings
     			});
     		} else {
-    			localFolder.createFileAsync("NegPre.txt", Windows.Storage.CreationCollisionOption.replaceExisting).then(function (sampleFile) {
+    			localFolder.createFileAsync("NegPre.xflow", Windows.Storage.CreationCollisionOption.replaceExisting).then(function (sampleFile) {
     				//var formatter = new Windows.Globalization.DateTimeFormatting.DateTimeFormatter("longtime");
     				//var timestamp = formatter.format(new Date());
 
