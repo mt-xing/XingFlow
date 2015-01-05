@@ -38,7 +38,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Michael\Documents\Visual Studio 2013\Projects\XingFlow\XingFlow\pages\round\round.css">
       <PackagePath>pages\round\round.css</PackagePath>
-      <Modified>2015-01-05T20:01:29.705</Modified>
+      <Modified>2015-01-05T20:11:18.259</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Michael\Documents\Visual Studio 2013\Projects\XingFlow\XingFlow\pages\settings\settings.css">
       <PackagePath>pages\settings\settings.css</PackagePath>
@@ -94,7 +94,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Michael\Documents\Visual Studio 2013\Projects\XingFlow\XingFlow\pages\home\home.js">
       <PackagePath>pages\home\home.js</PackagePath>
-      <Modified>2015-01-05T19:56:27.488</Modified>
+      <Modified>2015-01-05T20:13:44.009</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Michael\Documents\Visual Studio 2013\Projects\XingFlow\XingFlow\pages\round\round.js">
       <PackagePath>pages\round\round.js</PackagePath>

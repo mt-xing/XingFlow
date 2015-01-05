@@ -8,7 +8,7 @@
         	// TODO: Initialize the page here.
         	WinJS.Utilities.query("a").listen("click", this.linkClickEventHandler, false);
         	WinJS.Utilities.query("a").listen("mousedown", this.linkDownHandler, false);
-        	//WinJS.Utilities.query("a").listen("mouseup", this.linkUpHandler, false);
+        	WinJS.Utilities.query("a").listen("pointerout", this.linkUpHandler, false);
         },
 
         linkClickEventHandler: function (eventInfo) {
@@ -31,13 +31,13 @@
     		}
     		WinJS.UI.Animation.pointerDown(link).done();
     	},
-    	/*linkUpHandler: function (eventInfo) {
+    	linkUpHandler: function (eventInfo) {
     		eventInfo.preventDefault();
     		var link = eventInfo.target;
     		if (link.className != "ALink") {
     			link = link.parentElement;
     		}
     		WinJS.UI.Animation.pointerUp(link).done();
-    	}*/
+    	}
     });
 })();
