@@ -25,7 +25,11 @@
         	// TODO: Initialize the page here.
         	if (options.isReal) {
         		if (!options.isPre) {
+					//If this is a in-round
         			if (!options.isAff) {
+        				OpenFile(false);
+        			} else {
+        				OpenFile(true);
         				ChangePage();
         			}
         		} else {
@@ -1171,11 +1175,26 @@
     	});
 
     }
-    function OpenFile() {
+    function OpenFile(IsRoundTemp) {
     	if (IsPre) {
     		return;
     	}
     	var SavingContent = "";
+
+
+    	if (IsRoundTemp != null) {
+    		
+    		//var SplitContent = "";
+    		if (IsRoundTemp) {
+    			openPreFlow("AffPre.xflow");
+    		} else {
+    			openPreFlow("NegPre.xflow");
+    		}
+    		
+
+    		return;
+
+    	}
 
     	// Verify that we are currently not snapped, or that we can unsnap to open the picker
     	var currentState = Windows.UI.ViewManagement.ApplicationView.value;
@@ -1320,6 +1339,71 @@
 		// Return results
 		//(new Windows.UI.Popups.MessageDialog(iCaretPos, "Title")).showAsync().done();
 		return iCaretPos;
+	}
+
+	//Opens a specified file from AppData
+	function openPreFlow(fname) {
+
+		var SplitContent = "";
+
+		var localFolder = Windows.Storage.ApplicationData.current.localFolder;
+		localFolder.getFileAsync(fname)
+		   .then(function (sampleFile) {
+		   	return Windows.Storage.FileIO.readTextAsync(sampleFile);
+		   	//console.log(SplitContent);
+		   }).done(function (SplitContent) {
+		   	// Data is contained in timestamp
+		   	SplitContent = SplitContent.split("\n");
+
+		   	/*
+			ALL OF THE FOLLOWING IS A COPY AND PASTE FROM ABOVE
+
+			*/
+
+
+		   	Fields = SplitContent[0];
+		   	ContNum = SplitContent[1];
+		   	RepNum = SplitContent[2];
+		   	SubNum = SplitContent[3].split(",");
+		   	SplitLoc = SplitContent[4];
+		   	document.getElementById("MainContent").innerHTML = SplitContent[5];
+
+		   	var k = 6;
+		   	//SplitContent Iterator
+
+		   	for (var i = 1; i <= (Fields) ; i++) {
+		   		document.getElementById("Input" + i).value = SplitContent[k];
+
+		   		if (document.getElementById("Input" + i).getAttribute("data-source") == "true") {
+		   			k++;
+		   			document.getElementById("Source-Input" + i).value = SplitContent[k];
+		   		}
+		   		k++;
+
+		   		for (var j = 1; j <= Number(document.getElementById("Input" + i).getAttribute("data-rep")) ; j++) {
+		   			var El = document.getElementById("Input" + i);
+		   			var CurrRow = Number(El.id.substring(5));
+
+		   			//NewInput.id = CurrRow + "ResponseInput" + CurrCol;
+		   			document.getElementById(CurrRow + "ResponseInput" + j).value = SplitContent[k];
+		   			k++;
+
+		   			if (document.getElementById(CurrRow + "ResponseInput" + j).getAttribute("data-source") == "true") {
+		   				document.getElementById("Source-" + CurrRow + "ResponseInput" + j).value = SplitContent[j];
+		   				//document.getElementById("Source-Input" + i).value = SplitContent[k];
+		   				j++;
+		   			}
+		   		}
+		   	}
+
+		   	var StyleHolder = "40vw";
+		   	for (var i = 0; i < RepNum; i++) {
+		   		StyleHolder += " 30vw";
+		   	}
+		   	document.getElementById("MainContent").style.msGridColumns = StyleHolder;
+		   }, function () {
+		   	// Timestamp not found
+		   });
 	}
 		
 })();
