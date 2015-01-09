@@ -27,7 +27,9 @@
         		if (!options.isPre) {
 					//If this is a in-round
         			if (!options.isAff) {
+        				ChangePage();
         				OpenFile(false);
+        				ChangePage();
         			} else {
         				OpenFile(true);
         				ChangePage();
@@ -414,17 +416,17 @@
 				if (CurrRepNum == 1) {
 					document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput")).focus();
 				} else {
-					document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + (CurrRepNum - 1)).focus();
+					document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + "-" + (CurrRepNum - 1)).focus();
 				}
 				
-			} else if (document.getElementById((CurrRow - 1) + "ResponseInput" + CurrCol + "1") != null) {
+			} else if (document.getElementById((CurrRow - 1) + "ResponseInput" + CurrCol + "-" + "1") != null) {
 				//If the response on top also has many responses to the same point
 				var i = 1;
 				while (true) {
-					if (document.getElementById((CurrRow - 1) + "ResponseInput" + CurrCol + i) != null) {
+					if (document.getElementById((CurrRow - 1) + "ResponseInput" + CurrCol + "-" + i) != null) {
 						i++;
 					} else {
-						document.getElementById((CurrRow - 1) + "ResponseInput" + CurrCol + (i - 1)).focus();
+						document.getElementById((CurrRow - 1) + "ResponseInput" + CurrCol + "-" + (i - 1)).focus();
 						break;
 					}
 				}
@@ -453,16 +455,16 @@
 			if (El.getAttribute("data-reprow") != null) {
 				//If this is one of many responses to the same point
 				var CurrRepNum = Number(El.getAttribute("data-reprow"));
-				if (document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + (CurrRepNum + 1)) != null) {
-					document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + (CurrRepNum + 1)).focus();
+				if (document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + "-" + (CurrRepNum + 1)) != null) {
+					document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + "-" + (CurrRepNum + 1)).focus();
 					return;
 				} else {
 					//If this is the last response of many responses
 					CurrCol = Number(El.parentElement.id.split("ResponseContent")[1]);
 				}
 				
-			} else if (document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + "1") != null) {
-				document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + "1").focus();
+			} else if (document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + "-1") != null) {
+				document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + "-1").focus();
 				return;
 			}
 
@@ -996,33 +998,32 @@
 		
 		var i;
 
-		if (document.getElementById(MainContainer.id.replace("ResponseContent", "ResponseInput") + CurrRepNum) != null) {
+		if (document.getElementById(MainContainer.id.replace("ResponseContent", "ResponseInput") + "-" + CurrRepNum) != null) {
 			//If this isn't the newest response
-			//document.getElementById(MainContainer.id.replace("ResponseContent", "ResponseInput") +	CurrRepNum).focus();
-			//return;
+			
 			i = CurrRepNum;
-			while (document.getElementById(MainContainer.id.replace("ResponseContent", "ResponseInput") + i) != null) {
+			while (document.getElementById(MainContainer.id.replace("ResponseContent", "ResponseInput") + "-" + i) != null) {
 				//We need to loop down from the highest number, so we use a while loop to figure out what that number is
 				i++;
 			}
 			i--;
 			for (var j = i; j >= CurrRepNum; j--) {
 				//We then use a for loop to loop through existing fields and update their ids
-				document.getElementById(MainContainer.id.replace("ResponseContent", "ResponseInput") + j).setAttribute("data-reprow", (j + 1));
-				document.getElementById(MainContainer.id.replace("ResponseContent", "ResponseInput") + j).id = MainContainer.id.replace("ResponseContent", "ResponseInput") + (j + 1);
+				document.getElementById(MainContainer.id.replace("ResponseContent", "ResponseInput") + "-" + j).setAttribute("data-reprow", (j + 1));
+				document.getElementById(MainContainer.id.replace("ResponseContent", "ResponseInput") + "-" + j).id = MainContainer.id.replace("ResponseContent", "ResponseInput") + "-" + (j + 1);
 			}
 
 		}
 	
 		var NewInput = document.createElement("input");
 		NewInput.type = "text";
-		NewInput.id = MainContainer.id.replace("ResponseContent", "ResponseInput") + CurrRepNum;//CurrRow +		"ResponseInput" + CurrCol;
+		NewInput.id = MainContainer.id.replace("ResponseContent", "ResponseInput") + "-" + CurrRepNum;//CurrRow +		"ResponseInput" + CurrCol;
 		NewInput.setAttribute("data-isrep", "true");
 		NewInput.setAttribute("data-reprow", CurrRepNum); //Response Row = Reprow
 		if (i == null) {
 			MainContainer.appendChild(NewInput);
 		} else {
-			MainContainer.insertBefore(NewInput, document.getElementById(MainContainer.id.replace("ResponseContent", "ResponseInput") + (CurrRepNum + 1)));
+			MainContainer.insertBefore(NewInput, document.getElementById(MainContainer.id.replace("ResponseContent", "ResponseInput") + "-" + (CurrRepNum + 1)));
 		}
 		NewInput.focus();
     }
@@ -1045,14 +1046,14 @@
     	
 
     	var i = CurrElNum + 1;
-    	while (document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + i) != null) {
+    	while (document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + "-" + i) != null) {
     		if (i == 1) {
-    			document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + i).setAttribute("data-reprow", null);
-    			document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + i).setAttribute("data-hasreprow", true);
-    			document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + i).id = El.parentElement.id.replace("ResponseContent", "ResponseInput");
+    			document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + "-" + i).setAttribute("data-reprow", null);
+    			document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + "-" + i).setAttribute("data-hasreprow", true);
+    			document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + "-" + i).id = El.parentElement.id.replace("ResponseContent", "ResponseInput");
     		} else {
-    			document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + i).setAttribute("data-reprow", (i - 1));
-    			document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + i).id = El.parentElement.id.replace("ResponseContent", "ResponseInput") + (i - 1);
+    			document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + "-" + i).setAttribute("data-reprow", (i - 1));
+    			document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + "-" + i).id = El.parentElement.id.replace("ResponseContent", "ResponseInput") + "-" + (i - 1);
     		}
     		
     		i++;
@@ -1063,7 +1064,7 @@
     	if (CurrElNum == 1) {
     		document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput")).focus();
     	} else {
-    		document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + (CurrElNum - 1)).focus();
+    		document.getElementById(El.parentElement.id.replace("ResponseContent", "ResponseInput") + "-" + (CurrElNum - 1)).focus();
     	}
 
 
@@ -1109,7 +1110,13 @@
     			if (document.getElementById(CurrRow + "ResponseInput" + j).getAttribute("data-source") == "true") {
     				SavingContent += document.getElementById("Source-" + CurrRow + "ResponseInput" + j).value + "\n";
     			}
-				//TODO: Store Multiple Responses
+    			if (document.getElementById(CurrRow + "ResponseInput" + j).getAttribute("data-reprow") == "true") {
+    				var h = 1;
+    				while (document.getElementById(CurrRow + "ResponseInput" + j + "-" + h) != null) {
+    					SavingContent += document.getElementById(CurrRow + "ResponseInput" + j + "-" + h).value + "\n";
+    					h++;
+    				}
+    			}
     		}
 
     	}
@@ -1259,6 +1266,14 @@
     							//document.getElementById("Source-Input" + i).value = SplitContent[k];
     							j++;
     						}
+    						if (document.getElementById(CurrRow + "ResponseInput" + j).getAttribute("data-reprow") == "true") {
+    							var h = 1;
+    							while (document.getElementById(CurrRow + "ResponseInput" + j + "-" + h) != null) {
+    								//SavingContent += document.getElementById(CurrRow + "ResponseInput" + j + "-" + h).value + "\n";
+    								document.getElementById(CurrRow + "ResponseInput" + j + "-" + h).value = SplitContent[j];
+    								h++;
+    							}
+    						}
     					}
     				}
 
@@ -1361,11 +1376,11 @@
 			*/
 
 
-		   	Fields = SplitContent[0];
-		   	ContNum = SplitContent[1];
-		   	RepNum = SplitContent[2];
+		   	Fields = Number(SplitContent[0]);
+		   	ContNum = Number(SplitContent[1]);
+		   	RepNum = Number(SplitContent[2]);
 		   	SubNum = SplitContent[3].split(",");
-		   	SplitLoc = SplitContent[4];
+		   	SplitLoc = Number(SplitContent[4]);
 		   	document.getElementById("MainContent").innerHTML = SplitContent[5];
 
 		   	var k = 6;
@@ -1384,7 +1399,6 @@
 		   			var El = document.getElementById("Input" + i);
 		   			var CurrRow = Number(El.id.substring(5));
 
-		   			//NewInput.id = CurrRow + "ResponseInput" + CurrCol;
 		   			document.getElementById(CurrRow + "ResponseInput" + j).value = SplitContent[k];
 		   			k++;
 
