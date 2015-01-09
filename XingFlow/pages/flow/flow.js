@@ -29,14 +29,17 @@
         			if (!options.isAff) {
         				ChangePage();
         				OpenFile(false);
-        				ChangePage();
+        				//ChangePage();
         			} else {
         				OpenFile(true);
-        				ChangePage();
+        				//ChangePage();
         			}
         		} else {
         			//If this is a preflow
         			if (!options.isAff) {
+        				ChangePage();
+        			} else {
+        				ChangePage();
         				ChangePage();
         			}
         			IsPre = true;
@@ -399,6 +402,9 @@
     }
 
     function MoveUp() {
+    	if (document.activeElement.getAttribute("data-issource") == "true") {
+    		MoveSourceRight();
+    	}
 		if (document.activeElement.getAttribute("data-isrep") == "true") {
 			//If this is a response''
 	
