@@ -233,6 +233,9 @@
     					document.getElementById(i + "ResponseInput" + j).id = (i + 1) + "ResponseInput" + j;
     				}
     			}
+    			if (document.getElementById("Input" + i).getAttribute("data-source") == "true") {
+    				document.getElementById("Source-Input" + i).id = "Source-Input" + (i + 1);
+    			}
     			document.getElementById("Input" + i).id = "Input" + (i + 1);
     			document.getElementById("DivInput" + i).style.msGridRow = i + 1;
     			document.getElementById("DivInput" + i).id = "DivInput" + (i + 1);
@@ -1094,7 +1097,7 @@
     	//THIS IS WHERE THE SHTUFF ACTUALLY HAPPENS
     	//=================
 
-    	var SavingContent = Fields + "\n" + ContNum + "\n" + RepNum + "\n" + SubNum + "\n" + SplitLoc + "\n";
+    	var SavingContent = Fields + "\n" + ContNum + "\n" + RepNum + "\n" + SubNum + "\n" + SplitLoc + "\n" + AffContNum + "\n";
     	SavingContent += document.getElementById("MainContent").innerHTML.replace(/(\r\n|\n|\r)/gm, "") + "\n";
 
     	//var NumRep = 0;
@@ -1245,9 +1248,10 @@
     				RepNum = SplitContent[2];
     				SubNum = SplitContent[3].split(",");
     				SplitLoc = SplitContent[4];
-    				document.getElementById("MainContent").innerHTML = SplitContent[5];
+    				AffContNum = SplitContent[5];
+    				document.getElementById("MainContent").innerHTML = SplitContent[6];
 
-    				var k = 6;
+    				var k = 7;
     				//SplitContent Iterator
 
     				for (var i = 1; i <= (Fields) ; i++) {
@@ -1387,9 +1391,10 @@
 		   	RepNum = Number(SplitContent[2]);
 		   	SubNum = SplitContent[3].split(",");
 		   	SplitLoc = Number(SplitContent[4]);
-		   	document.getElementById("MainContent").innerHTML = SplitContent[5];
+		   	AffContNum = SplitContent[5];
+		   	document.getElementById("MainContent").innerHTML = SplitContent[6];
 
-		   	var k = 6;
+		   	var k = 7;
 		   	//SplitContent Iterator
 
 		   	for (var i = 1; i <= (Fields) ; i++) {
