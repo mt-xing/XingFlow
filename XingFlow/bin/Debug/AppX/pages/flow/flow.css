@@ -15,6 +15,7 @@ input[type=text] {
 	position:relative;
 	display:block;
 	margin: 1px;
+	box-sizing:border-box;
 }
 
 #MainContent {

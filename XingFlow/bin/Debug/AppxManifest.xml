@@ -7,7 +7,7 @@
 
     For more information on package manifest files, see http://go.microsoft.com/fwlink/?LinkID=241727
   -->
-  <Identity Name="72121586-8fa5-4b7f-98c8-f471503da5e8" Version="1.0.0.0" Publisher="CN=mt_xi_000" ProcessorArchitecture="neutral" />
+  <Identity Name="72121586-8fa5-4b7f-98c8-f471503da5e8" Version="0.2.2.0" Publisher="CN=mt_xi_000" ProcessorArchitecture="neutral" />
   <Properties>
     <DisplayName>XingFlow</DisplayName>
     <PublisherDisplayName>mt_xi_000</PublisherDisplayName>

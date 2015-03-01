@@ -19,7 +19,11 @@
         	}
 			WinJS.UI.Animation.pointerUp(link).done(
 				function completed() {
-					WinJS.Navigation.navigate(link.href, { isReal: false });
+					if (link.getAttribute("data-round") == "false") {
+						WinJS.Navigation.navigate(link.href, { isRound: false, isReal: false });
+					} else {
+						WinJS.Navigation.navigate(link.href, { isReal: false, isRound: false });
+					}
 				});
         	
         },
