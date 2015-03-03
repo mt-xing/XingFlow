@@ -638,7 +638,9 @@
 				ThisCont = 1 + Number(document.getElementById("Input" + (DetElNum() + 1)).getAttribute("data-incont"));
 			} else if (Number(document.getElementById("Input" + (DetElNum() + 1)).getAttribute("data-cont") != 0)) {
 				ThisCont = Number(document.getElementById("Input" + (DetElNum() + 1)).getAttribute("data-cont"));
-			} else if (Number(document.getElementById("Input" + (DetElNum() + 1)).getAttribute("data-incont")) == 0 && ContNum != 0 && CurrAff) {
+			} else if (Number(document.getElementById("Input" + (DetElNum() + 1)).getAttribute("data-incont")) == 0 && ContNum != 0 && CurrAff && DetElNum() == SplitLoc) {
+				ThisCont = AffContNum;
+			} else if(Number(document.getElementById("Input" + (DetElNum() + 1)).getAttribute("data-incont")) == 0 && ContNum != 0 && CurrAff) {
 				ThisCont = 1;
 			} else if (Number(document.getElementById("Input" + (DetElNum() + 1)).getAttribute("data-incont")) == 0 && ContNum != 0 && !CurrAff) {
 				ThisCont = AffContNum + 1;
