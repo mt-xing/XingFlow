@@ -17,6 +17,7 @@
 	const IndentValue = "99%";
 	const MarginTopValue = "1px";
 	var IsPre = false;
+	var IsRound = true;
 
 	WinJS.UI.Pages.define("/pages/flow/flow.html", {
 		// This function is called whenever a user navigates to this page. It
@@ -26,6 +27,8 @@
 			if (options.isReal) {
 				if (!options.isPre) {
 					//If this is a in-round
+					document.getElementById("Input1").style.backgroundColor = "darkgreen";
+					document.getElementById("Input1").style.color = "white";
 					if (!options.isAff) {
 						ChangePage();
 						OpenFile(false);
@@ -36,6 +39,9 @@
 					}
 				} else {
 					//If this is a preflow
+					IsRound = true;
+					document.getElementById("Input1").style.backgroundColor = "darkgreen";
+					document.getElementById("Input1").style.color = "white";
 					if (!options.isAff) {
 						ChangePage();
 					} else {
@@ -48,8 +54,11 @@
 				//If this came from the main hub
 				if (options.isRound) {
 					//Is a round
+					document.getElementById("Input1").style.backgroundColor = "darkgreen";
+					document.getElementById("Input1").style.color = "white";
 				} else {
 					//Blank Flow
+					IsRound = false;
 				}
 			}
 
@@ -263,6 +272,15 @@
 		input.setAttribute("data-sub", 0);
 		input.setAttribute("data-source", false);
 		input.setAttribute("data-rep", 0);
+		if (IsRound) {
+			if (CurrAff) {
+				input.style.backgroundColor = "darkgreen";
+				input.style.color = "white";
+			} else {
+				input.style.backgroundColor = "red";
+				input.style.color = "white";
+			}
+		}
 
 		var Holder = document.createElement("div");
 		Holder.id = "DivInput" + (ElNum + 1);

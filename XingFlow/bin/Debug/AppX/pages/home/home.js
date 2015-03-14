@@ -22,7 +22,7 @@
 					if (link.getAttribute("data-round") == "false") {
 						WinJS.Navigation.navigate(link.href, { isRound: false, isReal: false });
 					} else {
-						WinJS.Navigation.navigate(link.href, { isReal: false, isRound: false });
+						WinJS.Navigation.navigate(link.href, { isReal: false, isRound: true });
 					}
 				});
         	
